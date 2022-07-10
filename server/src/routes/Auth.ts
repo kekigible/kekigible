@@ -12,15 +12,15 @@ import authMiddleware from "../middleware/Auth";
 
 const AuthRouter = Router();
 
-AuthRouter.route("/refreshToken").get(refreshToken);
-AuthRouter.route("/auth/login/user").post(authMiddleware, loginUser);
-AuthRouter.route("/auth/register/user").post(registerUser);
+AuthRouter.get("/refreshToken", refreshToken);
+AuthRouter.post("/auth/login/user", authMiddleware, loginUser);
+AuthRouter.post("/auth/register/user", registerUser);
 
 //company
-AuthRouter.route("/auth/login/company").post(authMiddleware, loginCompany);
-AuthRouter.route("/auth/register/cpmpany").post(registerCompany);
+AuthRouter.post("/auth/login/company", authMiddleware, loginCompany);
+AuthRouter.post("/auth/register/company", registerCompany);
 
 //admin
-AuthRouter.route("/auth/login/admin").post(authMiddleware, loginAdmin);
-AuthRouter.route("/auth/register/admin").post(registerAdmin);
+AuthRouter.post("/auth/login/admin", authMiddleware, loginAdmin);
+AuthRouter.post("/auth/register/admin", registerAdmin);
 export default AuthRouter;

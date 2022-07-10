@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../entities/User";
+import User from "../models/User";
 import { ErrorClass, Unauthorized } from "../errors/Error";
 import { PayloadType } from "../types";
 import AsyncWrapper from "./Async";

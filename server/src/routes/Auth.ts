@@ -1,10 +1,26 @@
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/Auth";
+import {
+  loginUser,
+  refreshToken,
+  registerUser,
+  loginCompany,
+  registerCompany,
+  registerAdmin,
+  loginAdmin,
+} from "../controllers/Auth";
 import authMiddleware from "../middleware/Auth";
 
 const AuthRouter = Router();
 
-AuthRouter.route("/auth/login/user").post(authMiddleware, loginUser);
-AuthRouter.route("/auth/register/user").post(registerUser);
+AuthRouter.get("/refreshToken", refreshToken);
+AuthRouter.post("/auth/login/user", authMiddleware, loginUser);
+AuthRouter.post("/auth/register/user", registerUser);
 
+//company
+AuthRouter.post("/auth/login/company", authMiddleware, loginCompany);
+AuthRouter.post("/auth/register/company", registerCompany);
+
+//admin
+AuthRouter.post("/auth/login/admin", authMiddleware, loginAdmin);
+AuthRouter.post("/auth/register/admin", registerAdmin);
 export default AuthRouter;

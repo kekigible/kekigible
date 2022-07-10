@@ -28,4 +28,4 @@ const CompanySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("User", CompanySchema);
+export default mongoose.model("Company", CompanySchema);

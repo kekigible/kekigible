@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { Request, Response, NextFunction } from "express";
-import User from "../entities/User";
+import User from "../models/User";
 import AsyncWrapper from "../middleware/Async";
 import { BadRequest, ErrorClass, Unauthorized } from "../errors/Error";
 import {
@@ -10,8 +10,8 @@ import {
   verifyRefreshToken,
 } from "../utils/Utils";
 import { PayloadType } from "../types";
-import Company from "../entities/Company";
-import Admin from "../entities/Admin";
+import Company from "../models/Company";
+import Admin from "../models/Admin";
 
 const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-underscore-dangle

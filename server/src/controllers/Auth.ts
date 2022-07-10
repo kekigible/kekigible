@@ -6,12 +6,15 @@ import { BadRequest, ErrorClass } from "../errors/Error";
 
 const registerUser = AsyncWrapper(async (req, res) => {
   const { username, password, email } = req.body;
-  var hashedPassword = bcrypt.hashSync(password, 8);
+  let hashedPassword = bcrypt.hashSync(password, 8);
 
   if (!username || !password) throw new BadRequest("Please enter username and password");
 
-  const user = await User.create({
-    name: username,
+  let user = await User.findOne({ email: req.body.email });
+  if (user) throw new BadRequest("User already present");
+
+  user = await User.create({
+    username: username,
     email: email,
     password: hashedPassword,
   });
@@ -23,8 +26,23 @@ const registerUser = AsyncWrapper(async (req, res) => {
 });
 
 const loginUser = AsyncWrapper(async (req, res) => {
-  console.log("req user", req.id);
-  res.status(200).json({ status: "loged in" });
+  // console.log("req user", req.id);
+
+  const user = await User.findOne({ id: req.id });
+  if (!user) throw new ErrorClass(400, "No such user present");
+
+  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+
+  if (!passwordIsValid)
+    return res
+      .status(401)
+      .json({ auth: false, token: null, message: "Password is incorrect" });
+
+  var token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: 86400, // expires in 24 hours
+  });
+
+  res.status(200).json({ status: "success , loged in", data: user, token: token });
   //   if (!username || !password) throw new ErrorClass(400, "Please enter username and password");
 });
 

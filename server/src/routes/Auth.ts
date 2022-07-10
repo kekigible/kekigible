@@ -4,7 +4,7 @@ import authMiddleware from "../middleware/Auth";
 
 const AuthRouter = Router();
 
-AuthRouter.route("/auth/login/user").get(authMiddleware, loginUser);
+AuthRouter.route("/auth/login/user").post(authMiddleware, loginUser);
 AuthRouter.route("/auth/register/user").post(registerUser);
 
 export default AuthRouter;

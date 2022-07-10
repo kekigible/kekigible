@@ -5,7 +5,7 @@ import { PayloadType } from "../types";
 import AsyncWrapper from "./Async";
 
 const authMiddleware = async (req, res, next) => {
-  console.log("header", req.headers.authorization);
+  // console.log("header", req.headers.authorization);
 
   const authHeader = req.headers.authorization;
 
@@ -22,10 +22,11 @@ const authMiddleware = async (req, res, next) => {
 
     // const user = await User.findOne({ id: payload.id });
     // console.log(user);
+
     req.id = { id: payload.id };
-    next();
+    return next();
   } catch (err) {
-    throw new Unauthorized("unauthorized request");
+    throw new Unauthorized("There was a problem authenticating the user ");
   }
 };
 

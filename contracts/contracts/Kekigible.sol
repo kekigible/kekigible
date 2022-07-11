@@ -24,14 +24,50 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json") {
         Admins[msg.sender] = true;
     }
 
+    /////////////////////////////////Modifiers////////////////////////////////
+
     modifier onlyAdmin{
         require(Admins[msg.sender], "This is Admin Only!");
         _;
     }
 
+    modifier onlyNonBanned{
+        require(!(BannedAccounts[msg.sender]), "You have been banned, contact admin!");
+        _;
+    }
+
+    modifier onlyCertifiedMinters{
+        require(CertifiedMinters[msg.sender], "You are not certified to mint!");
+        _;
+    }
+
+    ///////////////////////////////Utility Functions//////////////////////////
+
     function isAdmin(address _query) public view returns(bool) {
         return Admins[_query];
     }
+
+    function isBanned(address _query) public view returns(bool) {
+        return BannedAccounts[_query];
+    }
+
+    function isCertifiedMinter(address _query) public view returns(bool) {
+        return CertifiedMinters[_query];
+    }
+
+    function addAdmin(address newAdmin) onlyAdmin public {
+        Admins[newAdmin] = true;
+    }
+
+    function addCertifiedMinter(address newMinter) onlyAdmin public {
+        CertifiedMinters[newMinter] = true;
+    }
+
+    function ban(address someDude) onlyAdmin public {
+        BannedAccounts[someDude] = true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     function test() onlyAdmin public view returns(bool){
         return true;

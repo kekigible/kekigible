@@ -19,10 +19,9 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
     //   - Details of times when warranty was availed (should be in backend ig???)
     //     - Backend should be checking blockchain as source of truth so ig so
     // - public functions to external, when done
-    // - msg.sender to _msg.sender
     
     // apparently solidity works better with 256, using smaller datatype leads to more cost
-    uint256 public constant LOYALTY_TOKEN = 0; //ID of loyalty token, only token that is non-fungible
+    // uint256 public constant LOYALTY_TOKEN = 0; //ID of loyalty token, only token that is non-fungible
     mapping (uint256 => NFTMetadata) public Warranties; // ID -> NFTMetadata
 
     using Counters for Counters.Counter;
@@ -34,8 +33,6 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
     struct NFTMetadata {
         int times; //negative means no longer valid
         bool decay; //should NFT be also invalid if warranty is decayed?
-        string productName;
-        string productDescription;
         uint timestamp; //timestamp till which warranty valid
         bool voidWhenSold;
         bool soulBound;
@@ -44,22 +41,33 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
 
 
     constructor(){
-        // Admins[msg.sender] = true;
-        // CertifiedMinters[msg.sender] = true;
-
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(MINTER, msg.sender);
         _setRoleAdmin(BANNED, MINTER); //minters can ban people
     }
 
+    ///////////////////////////Overrides////////////////////////////////////
+
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes memory data) public virtual override(ERC1155) {
+        // is there any internal before mint function?
+        require(!(Warranties[id].soulBound), "Cannot be transferred since this is a soulBound NFT!");
+        require(!(Warranties[id].applied), "Cannot transfer when applied for warranty");
+        if(Warranties[id].voidWhenSold){
+            Warranties[id].times = -1;  // no longer valid
+        }
+        if(Warranties[id].decay){
+            require(block.timestamp < Warranties[id].timestamp, "Your NFT has decayed!");
+        }
+        super.safeTransferFrom(from, to, id, amount, data);
     }
 
     /////////////////////////////////Modifiers////////////////////////////////
 
     modifier onlyAdmin{
-        // require(Admins[msg.sender], "This is Admin Only!");
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "This is Admin Only!");
         _;
     }
@@ -77,16 +85,12 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
 
     function mint(
         address account,
-        //uint256 id,
         bytes memory data,
         int times,
         bool decay,
-        string memory productName,
-        string memory productDescription,
         uint timestamp,
         bool voidWhenSold,
-        bool soulBound,
-        bool applied
+        bool soulBound
         ) payable public onlyMinters {
             require(!(hasRole(BANNED, account)), "Address is banned!");
             _tokenIDs.increment();
@@ -94,66 +98,17 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
             Warranties[id] = NFTMetadata(
                 times,
                 decay,
-                productName,
-                productDescription,
                 timestamp,
                 voidWhenSold,
                 soulBound,
-                applied
+                false  //no one would apply for warranty service during buy
             );
 
             _mint(account, id, 1, data);    
     }
 
-    function reward(address account, uint256 amount, bytes memory data) public {
-        require(!(hasRole(BANNED, account)), "Address is banned!");
-        _mint(account, LOYALTY_TOKEN, amount, data);
-    }
-
-    // function mintWithReward(
-    //     address account,
-    //     // uint256 id,
-    //     bytes memory data,
-    //     int times,
-    //     bool decay,
-    //     string memory productName,
-    //     string memory productDescription,
-    //     uint timestamp,
-    //     bool voidWhenSold,
-    //     bool soulBound,
-    //     bool applied,
-    //     uint256 rewardAmount
-    //     ) payable public onlyMinters {
-    //         require(!(hasRole(BANNED, account)), "Address is banned!");
-    //         _tokenIDs.increment();
-    //         uint256 id = _tokenIDs.current();
-    //         Warranties[id] = NFTMetadata(
-    //             times,
-    //             decay,
-    //             productName,
-    //             productDescription,
-    //             timestamp,
-    //             voidWhenSold,
-    //             soulBound,
-    //             applied
-    //         );
-
-    //         // _mint(account, id, amount, data);    
-    //         uint256[] storage IDs;
-    //         uint256[] storage AMOUNTS;
-    //         IDs.push(LOYALTY_TOKEN);
-    //         IDs.push(id);
-    //         AMOUNTS.push(rewardAmount);
-    //         AMOUNTS.push(1);
-    //         _mintBatch(account, IDs, AMOUNTS, data);
+    // function reward(address account, uint256 amount, bytes memory data) public {
+    //     require(!(hasRole(BANNED, account)), "Address is banned!");
+    //     _mint(account, LOYALTY_TOKEN, amount, data);
     // }
-
-
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    function test() onlyAdmin public view returns(bool){
-        return true;
-    }
-
 }

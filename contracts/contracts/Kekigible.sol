@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-//import "@openzeppelin/contracts/access/Roles.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl {
     //using Roles for Roles.Role;
@@ -22,14 +22,11 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
     // - msg.sender to _msg.sender
     
     // apparently solidity works better with 256, using smaller datatype leads to more cost
-    uint256 public constant LoyaltyToken = 0; //ID of loyalty token, only token that is non-fungible
-    // mapping (address => bool) public Admins;
-    // mapping (address => bool) public CertifiedMinters;
-    // mapping (address => bool) public BannedAccounts; // could be both company/user
+    uint256 public constant LOYALTY_TOKEN = 0; //ID of loyalty token, only token that is non-fungible
     mapping (uint256 => NFTMetadata) public Warranties; // ID -> NFTMetadata
 
-    //Roles.Role private _minters;
-    //Roles.Role private _bannedAccounts;
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIDs;
 
     bytes32 public constant MINTER = keccak256("MINTER");
     bytes32 public constant BANNED = keccak256("BANNED");
@@ -80,8 +77,7 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
 
     function mint(
         address account,
-        uint256 id,
-        uint256 amount,
+        //uint256 id,
         bytes memory data,
         int times,
         bool decay,
@@ -91,8 +87,10 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
         bool voidWhenSold,
         bool soulBound,
         bool applied
-        ) public onlyMinters {
+        ) payable public onlyMinters {
             require(!(hasRole(BANNED, account)), "Address is banned!");
+            _tokenIDs.increment();
+            uint256 id = _tokenIDs.current();
             Warranties[id] = NFTMetadata(
                 times,
                 decay,
@@ -104,8 +102,53 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
                 applied
             );
 
-            _mint(account, id, amount, data);    
+            _mint(account, id, 1, data);    
     }
+
+    function reward(address account, uint256 amount, bytes memory data) public {
+        require(!(hasRole(BANNED, account)), "Address is banned!");
+        _mint(account, LOYALTY_TOKEN, amount, data);
+    }
+
+    // function mintWithReward(
+    //     address account,
+    //     // uint256 id,
+    //     bytes memory data,
+    //     int times,
+    //     bool decay,
+    //     string memory productName,
+    //     string memory productDescription,
+    //     uint timestamp,
+    //     bool voidWhenSold,
+    //     bool soulBound,
+    //     bool applied,
+    //     uint256 rewardAmount
+    //     ) payable public onlyMinters {
+    //         require(!(hasRole(BANNED, account)), "Address is banned!");
+    //         _tokenIDs.increment();
+    //         uint256 id = _tokenIDs.current();
+    //         Warranties[id] = NFTMetadata(
+    //             times,
+    //             decay,
+    //             productName,
+    //             productDescription,
+    //             timestamp,
+    //             voidWhenSold,
+    //             soulBound,
+    //             applied
+    //         );
+
+    //         // _mint(account, id, amount, data);    
+    //         uint256[] storage IDs;
+    //         uint256[] storage AMOUNTS;
+    //         IDs.push(LOYALTY_TOKEN);
+    //         IDs.push(id);
+    //         AMOUNTS.push(rewardAmount);
+    //         AMOUNTS.push(1);
+    //         _mintBatch(account, IDs, AMOUNTS, data);
+    // }
+
+
 
     ////////////////////////////////////////////////////////////////////////////
 

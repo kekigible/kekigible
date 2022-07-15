@@ -9,7 +9,7 @@ const Signup = () =>{
     return(
         <div className={styles.container}>
         <Head>
-          <title>Signup</title>
+          <title>Kekigible|Signup</title>
           <meta name="Kekigible" content="Blockchain-based eCommerce warranty system using NFTs" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

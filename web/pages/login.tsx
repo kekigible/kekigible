@@ -9,7 +9,7 @@ const  Login = () => {
     return(
         <div className={styles.container}>
         <Head>
-          <title>Signup</title>
+          <title>Kekigible|Login</title>
           <meta name="Kekigible" content="Blockchain-based eCommerce warranty system using NFTs" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

@@ -4,29 +4,27 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl {
     //using Roles for Roles.Role;
 
     // TODO:
     // - figure out memory/storage optimisations
-    // - warranty boolean
-    // - sell to each other boolean (soulbound) (part of warranty struct)
-    // - modify `safeTransferFrom` according to warranty boolean, ban checks, decaying NFT
-    // - Create struct represting warranty
-    // - decaying NFT
-    //   - How many times can warranty be availed?
-    //   - Details of times when warranty was availed (should be in backend ig???)
-    //     - Backend should be checking blockchain as source of truth so ig so
+    // x sell to each other boolean (soulbound) (part of warranty struct)
+    // x modify `safeTransferFrom` according to warranty boolean, ban checks, decaying NFT
+    // x Create struct represting warranty
+    // x decaying NFT
+    //   x How many times can warranty be availed?
+    //   x Details of times when warranty was availed (should be in backend ig???)
+    //     x Backend should be checking blockchain as source of truth so ig so
     // - public functions to external, when done
 
-    // - function to buy warranty time and warranty times
-    // - Only customer can set applied to true and false, company can only detect custom event
-    // - Company can however call a function that will trigger events to let user know that something was done (source of truth)
+    // x function to buy warranty time and warranty times
+    // x Only customer can set applied to true and false, company can only detect custom event
+    // x Company can however call a function that will trigger events to let user know that something was done (source of truth)
     
     // apparently solidity works better with 256, using smaller datatype leads to more cost
-    // uint256 public constant LOYALTY_TOKEN = 0; //ID of loyalty token, only token that is non-fungible
     mapping (uint256 => NFTMetadata) public Warranties; // ID -> NFTMetadata
 
     using Counters for Counters.Counter;
@@ -36,7 +34,7 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
     bytes32 public constant BANNED = keccak256("BANNED");
 
     struct NFTMetadata {
-        int times; //negative means no longer valid
+        int times; //-1 = not valid, -2 = (times = infinity)
         bool decay; //should NFT be also invalid if warranty is decayed?
         uint timestamp; //timestamp till which warranty valid
         bool voidWhenSold;
@@ -59,20 +57,19 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
     }
 
     function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data) internal virtual override(ERC1155) {
-        console.log(operator, from, to);
         if(from != 0x0000000000000000000000000000000000000000){
             for(uint i = 0; i < ids.length ; i++) {
                 require(!(Warranties[ids[i]].soulBound), "Cannot be transferred since this is a soulBound NFT!");
                 require(!(Warranties[ids[i]].applied), "Cannot transfer when applied for warranty");
-                if(Warranties[ids[i]].voidWhenSold){
-                    Warranties[ids[i]].times = -1;  // no longer valid
-                }
                 if(Warranties[ids[i]].decay){
                     require(block.timestamp < Warranties[ids[i]].timestamp, "Your NFT has decayed!");
                 }
+                if(Warranties[ids[i]].voidWhenSold){
+                    Warranties[ids[i]].times = -1;  // no longer valid
+                    emit UpdatedWarranty(ids[i], -1, Warranties[ids[i]].timestamp);
+                }
             }
         }
-        console.log("_beforeTokenTransfer (kekigible) called");
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
@@ -117,11 +114,49 @@ contract Kekigible is ERC1155("localhost:8000/product/{id}.json"), AccessControl
             );
 
             _mint(account, id, 1, data);    
+            emit UpdatedWarranty(id, times, timestamp);
             return id;
     }
 
-    // function reward(address account, uint256 amount, bytes memory data) public {
-    //     require(!(hasRole(BANNED, account)), "Address is banned!");
-    //     _mint(account, LOYALTY_TOKEN, amount, data);
-    // }
+    // Remove onlyMinters to save gas???
+    function updateWarranty(uint256 id, int times, uint timestamp) payable public onlyMinters {
+        // BAN CHECK DONE IN BACKEND
+        require(Warranties[id].minter == msg.sender, "Only the minter of the NFT can call this function");
+        Warranties[id].times = times;
+        Warranties[id].timestamp = timestamp;
+        emit UpdatedWarranty(id, times, timestamp);
+    }
+
+    function requestWarranty(uint256 id) public onlyNonBanned {
+        // is this function operator friendly?
+        require(balanceOf(msg.sender, id) > 0 , "Not owner of said token!");
+        require(Warranties[id].times > 0 || Warranties[id].times == -1, "Cannot avail warranty service!");
+        require(block.timestamp < Warranties[id].timestamp, "Your NFT has decayed!");
+        Warranties[id].applied = true;
+        emit RequestWarranty(id, msg.sender);
+    }
+
+    // Remove onlyMinters to save gas???
+    function respondWarranty(uint256 id) public onlyMinters {
+        require(Warranties[id].minter == msg.sender, "Only minter of the token can call this!");
+        require(Warranties[id].applied, "Customer hasn't applied for NFT yet!");
+        emit RespondWarranty(id);
+    }
+
+    function closeWarranty(uint256 id) public onlyNonBanned {
+        // is this function operator friendly?
+        require(balanceOf(msg.sender, id) > 0 , "Not owner of said token!");
+        require(Warranties[id].times != -1, "Warranty expired!");
+        require(Warranties[id].applied, "You haven't applied for NFT yet!");
+        if(Warranties[id].times != -2){
+            Warranties[id].times--;
+        }
+        emit CloseWarranty(id, msg.sender, Warranties[id].times);
+    }
+
+    /////////////////////////Events//////////////////////////////////
+    event UpdatedWarranty(uint256 indexed id, int times, uint timestamp);
+    event RequestWarranty(uint256 indexed id, address indexed requester);
+    event RespondWarranty(uint256 indexed id);
+    event CloseWarranty(uint256 indexed id, address indexed closer, int newTimes);
 }

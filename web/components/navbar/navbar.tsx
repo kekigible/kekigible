@@ -13,6 +13,11 @@ const Navbar = () =>{
                         </Link>
                     </li>
                     <li className={styles.link}>
+                        <Link href="./login">
+                            <a>Login</a>
+                        </Link>
+                    </li>
+                    <li className={styles.link}>
                         <Link href="./signup">
                             <a>Signup</a>
                         </Link>

@@ -21,19 +21,20 @@ const Signup = () =>{
             <h2 className={styles.title}>Sign up</h2>
             <form action="#" className={styles.form}>
                 <div className={styles.email}>
-                    <Input type="email" id="email" label="Email*"/>
+                    <Input type="email" id="email" label="Email*" required={true}/>
                 </div>
                 <div className={styles.firstname}>
-                    <Input type="text" id="firstname" label="First Name*" />
+                    <Input type="text" id="firstname" label="First Name*" required={true}/>
                 </div>
                 <div className={styles.lastname}>
-                    <Input type="text" id="lastname" label="Last Name*" />
+                    <Input type="text" id="lastname" label="Last Name*"  required={true}/>
                 </div>
                 <div className={styles.password}>
-                    <Input type="password" id="password" label="Password*" />
+                    <Input type="password" id="password" label="Password*" required={true} />
                 </div>
 
                 <input type="submit" name="submit" value="Sign up" onSubmit={()=>{}} />
+                <Link href="./login"><a>Already have an account?</a></Link>
             </form>
             <br />
             <hr />

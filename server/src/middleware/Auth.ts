@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import User from "../models/User";
 import Company from "../models/Company";
 import { ErrorClass, Unauthorized } from "../errors/Error";
@@ -19,7 +19,7 @@ export const authMiddleware = async (req, res, next) => {
   const token = authHeader.split("Bearer ")[1];
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY) as PayloadType;
+    const payload = (verify(token, process.env.JWT_SECRET_KEY as string) as unknown) as PayloadType;
 
     req.user = await User.findOne({ id: payload.id });
 
@@ -43,7 +43,7 @@ export const authMiddlewareCompany = async (req, res, next) => {
   const token = authHeader.split("Bearer ")[1];
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY) as PayloadType;
+    const payload = (verify(token, process.env.JWT_SECRET_KEY as string) as unknown) as PayloadType;
 
     req.user = await Company.findOne({ id: payload.id });
 
@@ -67,7 +67,7 @@ export const authMiddlewareAdmin = async (req, res, next) => {
   const token = authHeader.split("Bearer ")[1];
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY) as PayloadType;
+    const payload = (verify(token, process.env.JWT_SECRET_KEY as string) as unknown) as PayloadType;
 
     req.user = await Admin.findOne({ id: payload.id });
 

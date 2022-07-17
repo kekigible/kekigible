@@ -23,7 +23,7 @@ const refreshToken = async (req: Request, res: Response, next: NextFunction) => 
   }
 
   try {
-    const payload = verifyRefreshToken(token) as PayloadType;
+    const payload = (verifyRefreshToken(token) as unknown) as PayloadType;
     const user = await User.findOne({ id: payload.id });
     if (!user) {
       throw new Unauthorized("User not present");
@@ -46,7 +46,7 @@ const refreshTokenCompany = async (req: Request, res: Response, next: NextFuncti
   }
 
   try {
-    const payload = verifyRefreshToken(token) as PayloadType;
+    const payload = (verifyRefreshToken(token) as unknown) as PayloadType;
     const company = await Company.findOne({ id: payload.id });
     if (!company) {
       throw new Unauthorized("Company not present");
@@ -69,7 +69,7 @@ const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction
   }
 
   try {
-    const payload = verifyRefreshToken(token) as PayloadType;
+    const payload = (verifyRefreshToken(token) as unknown) as PayloadType;
     const admin = await Admin.findOne({ id: payload.id });
     if (!admin) {
       throw new Unauthorized("Company not present");

@@ -44,6 +44,16 @@ const collectionSchema = new mongoose.Schema({
     type: [Product],
     default: [],
   },
+
+  nftImageUrl : String , 
+
+  nftLoyaltyImageUrl : String ,
+
+  nftSoulBound : { type : Boolean , default : false } ,
+
+  nftPurchasable : {type : Number ,default : 10 } , 
+
+  loyaltyCoinAlloted : { type : Number , default : 10 , min : 1}
 });
 
 export default mongoose.model("Collection", collectionSchema);

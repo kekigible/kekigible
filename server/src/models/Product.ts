@@ -40,6 +40,25 @@ const ProductSchema = new mongoose.Schema({
   price: Number,
 
   brand: String,
+
+  ownedBy : {
+    type : String,
+    nullable :true,
+  },
+
+  decayingTime : { 
+    type : Date 
+  },
+
+  warrantyAvail : { 
+    type : Number , 
+    default : -1 ,
+  },
+
+  resoldVoid : { 
+    type : Boolean ,
+    default : false 
+  }
 });
 
 export default mongoose.model("Product", ProductSchema);

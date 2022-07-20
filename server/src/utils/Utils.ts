@@ -1,8 +1,8 @@
 import { sign, verify } from "jsonwebtoken";
 import { Request, Response } from "express";
-import uuid from "node-uuid";
+import uuid4 from "uuid4";
 
-const createRefreshToken = (id) =>
+const createRefreshToken = (id : string) =>
   sign(
     {
       id,
@@ -13,7 +13,7 @@ const createRefreshToken = (id) =>
     }
   );
 
-const createAccessToken = (id) =>
+const createAccessToken = (id : string) =>
   sign(
     {
       id,
@@ -35,7 +35,7 @@ const sendRefreshTokenCookie = (res: Response, token: string) => {
   });
 };
 
-const genUUID = () => uuid.v1();
+const genUUID = () => uuid4();
 
 export {
   createAccessToken,

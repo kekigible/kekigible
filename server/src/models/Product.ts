@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { genUUID } from "../utils/Utils";
+import User from "./User";
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -42,7 +43,7 @@ const ProductSchema = new mongoose.Schema({
   brand: String,
 
   ownedBy : {
-    type : String,
+    type : User,
     nullable :true,
   },
 

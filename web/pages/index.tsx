@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
+import Hero from '../components/hero/hero'
 import Navbar from '../components/navbar/navbar'
 import styles from '../styles/Home.module.scss'
 
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
         <header>
           <Navbar></Navbar>
         </header>
+        <Hero></Hero>
       </main>
       
     </div>

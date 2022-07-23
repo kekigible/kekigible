@@ -13,7 +13,7 @@ pragma solidity ^0.8.9;
 
 import "./mixins/KekToken.sol";
 
-abstract contract Factory is KekToken {
+contract Factory is KekToken {
     address public immutable FactoryAddress;
     constructor(uint256 supply) KekToken(supply) {
         FactoryAddress = address(this);

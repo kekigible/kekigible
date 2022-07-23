@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: GPL-2.0
 pragma solidity ^0.8.9;
 
-import "./KeKAccessControl.sol";
+import "./KekAccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
@@ -13,9 +13,9 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
  * It has Context (eventual overriding by gas station network) and some other
  * OpenZeppelin goodies
  */
-contract KekToken is KekAccessControl, ERC20Capped, ERC20Burnable, ERC20Pausable {
+abstract contract KekToken is KekAccessControl, ERC20Capped, ERC20Burnable, ERC20Pausable {
 
-    constructor(uint256 cap) public ERC20("KekToken", "KEK") ERC20Capped(cap) {
+    constructor(uint256 cap) ERC20("KekToken", "KEK") ERC20Capped(cap) {
     }
 
     ///////////////////////////////Pause Related stuff/////////////////////////////////

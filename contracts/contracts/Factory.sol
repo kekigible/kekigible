@@ -13,15 +13,18 @@ pragma solidity ^0.8.9;
 
 import "./mixins/KekToken.sol";
 
-contract Factory is KekToken {
+abstract contract Factory is KekToken {
+    address public immutable FactoryAddress;
     constructor(uint256 supply) KekToken(supply) {
-        // Nothing here yet
+        FactoryAddress = address(this);
     }
 
-    // function create() onlyRole(keccak256('DEFAULT_ADMIN_ROLE')) public {}
+    function create() onlyAdmin public {
+
+    }
 
     /**
      * @dev Pump money into the contract so more contracts can be generated for sale
      */
-    function receive() external payable {}
+    receive() external payable {}
 }

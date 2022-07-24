@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { genUUID } from "../utils/Utils";
-import Product from "./Product";
+import Product, { ProductSchema } from "./Product";
 
 const collectionSchema = new mongoose.Schema({
   name: {
@@ -41,19 +41,19 @@ const collectionSchema = new mongoose.Schema({
   //assuming it is a collection of products
 
   productArray: {
-    type: [Product],
+    type: [ProductSchema],
     default: [],
   },
 
-  nftImageUrl : String , 
+  nftImageUrl: String,
 
-  nftLoyaltyImageUrl : String ,
+  nftLoyaltyImageUrl: String,
 
-  nftSoulBound : { type : Boolean , default : false } ,
+  nftSoulBound: { type: Boolean, default: false },
 
-  nftPurchasable : {type : Number ,default : 10 } , 
+  nftPurchasable: { type: Number, default: 10 },
 
-  loyaltyCoinAlloted : { type : Number , default : 10 , min : 1}
+  loyaltyCoinAlloted: { type: Number, default: 10, min: 1 },
 });
 
 export default mongoose.model("Collection", collectionSchema);

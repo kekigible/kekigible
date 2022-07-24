@@ -19,4 +19,38 @@ const getAllCollection = async (req: Request, res: Response) => {
   }
 };
 
-export { createCollection, getAllCollection };
+const uploadNftImage = async (req: Request, res: Response) => {
+  try {
+    const collection = await Collection.findOne({ collectionId: req.body.id });
+    const UpdateCollection = await Collection.updateOne(
+      { collectionId: req.body.id },
+      { ...collection, nftImageUrl: req.file.buffer },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).exec();
+    res.status(200).json({ status: "success", data: collection });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const uploadGamifiedNftImage = async (req: Request, res: Response) => {
+  try {
+    const collection = await Collection.findOne({ collectionId: req.body.id });
+    const UpdateCollection = await Collection.updateOne(
+      { collectionId: req.body.id },
+      { ...collection, nftLoyaltyImageUrl: req.file.buffer },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).exec();
+    res.status(200).json({ status: "success", data: UpdateCollection });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { createCollection, getAllCollection, uploadNftImage, uploadGamifiedNftImage };

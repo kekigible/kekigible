@@ -42,6 +42,7 @@ abstract contract KekToken is KekAccessControl, ERC20Capped, ERC20Burnable, ERC2
         _mint(to, amount);
     }
 
+    // Don't mess with the overriden functions below, they were changed in their parent contracts
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override(ERC20, ERC20Pausable) {
         super._beforeTokenTransfer(from, to, amount);
     }

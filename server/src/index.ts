@@ -5,6 +5,7 @@ import { ErrorMiddleWare, NoRouteMiddleWare } from "./middleware/Error";
 import AuthRouter from "./routes/Auth";
 import CollectionRouter from "./routes/Collection";
 import ProductRouter from "./routes/Product";
+import TicketRouter from "./routes/Ticket";
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/", AuthRouter);
 app.use("/", CollectionRouter);
 app.use("/", ProductRouter);
+app.use("/", TicketRouter);
 
 app.use(NoRouteMiddleWare);
 app.use(ErrorMiddleWare);

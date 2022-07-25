@@ -11,6 +11,28 @@
             font-family:'Source Sans Pro', sans-serif;
             font-weight: 600;
             font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        p{
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 400;
+            font-size: 2rem;
+            color: #505050;
+            margin-bottom: 5rem;
+        }
+        .linkHolder{
+            display: flex;
+            justify-content: space-between;
+                p{
+                    cursor: pointer;
+                    color: #2a2a2a;
+                    border: 2px solid #909090;
+                    padding: 1rem;
+                    border-radius: 1rem;
+                    &:hover{
+                        border-color: #2a2a2a ;
+                    }
+                }
         }
     }
     .rightSection{

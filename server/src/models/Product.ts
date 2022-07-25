@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { genUUID } from "../utils/Utils";
-import User from "./User";
+import User, { UserSchema } from "./User";
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -42,24 +42,25 @@ const ProductSchema = new mongoose.Schema({
 
   brand: String,
 
-  ownedBy : {
-    type : User,
-    nullable :true,
+  ownedBy: {
+    type: UserSchema,
+    nullable: true,
   },
 
-  decayingTime : { 
-    type : Date 
+  decayingTime: {
+    type: Date,
   },
 
-  warrantyAvail : { 
-    type : Number , 
-    default : -1 ,
+  warrantyAvail: {
+    type: Number,
+    default: -1,
   },
 
-  resoldVoid : { 
-    type : Boolean ,
-    default : false 
-  }
+  resoldVoid: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+export { ProductSchema };
 export default mongoose.model("Product", ProductSchema);

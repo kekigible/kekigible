@@ -1,0 +1,54 @@
+.header{
+
+    display: flex;
+    height:10vh;
+    width:vw;
+    background-color: black;
+    align-items: center;
+    p{
+        cursor: pointer;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        padding: 1rem;
+    }
+}
+.main{
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    form{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border: 2px solid black;
+        border-radius: .5rem;
+        width: 50rem;
+        padding: 1rem;
+        .fb45{
+            flex-basis: 45%;
+        }
+        .fb100{
+            flex-basis: 100%;
+        }
+        .fslabel{
+            font-size: 1.2rem;
+        }
+        .warrantyCb{
+            padding: 1rem;
+            transform: scale(1.5);
+            margin-bottom: 1rem;
+        }
+        .select{
+            padding: 1rem;
+            border-radius: .5rem;
+            border:1px solid #a6a6a6;
+            background-color: #fff;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #454545;
+            width:25rem;
+            margin-top: 1rem;
+        }
+    }
+}

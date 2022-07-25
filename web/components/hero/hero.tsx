@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 import Nft from "../ntf/nft";
 import styles from "./hero.module.scss"
@@ -8,9 +9,17 @@ const Hero = () => {
             <section className={styles.leftSection}>
 
             <h1>
-                A Place to Manage all your Warranties.
+                A place to manage all your warranties.
             </h1>
-            <p></p>
+            <p>About time you go paperless and manage all your warranties in a more secure way</p>
+            <section className={styles.linkHolder}>
+                <Link  href='./users/login'>
+                    <p>Dashbord</p>
+                </Link>
+                <Link  href='./shopDashboard'>
+                    <p>Dashbord for Shops</p>
+                </Link>
+            </section>
             </section>
             <section className={styles.rightSection}>
                 <Nft></Nft>

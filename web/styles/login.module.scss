@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap');
+
+.main{
+    display: flex;
+    justify-content: space-around;
+}
+
+.formContainer{
+    padding: clamp(1rem, 10vw, 10rem );
+    max-width: 70rem;
+    .title{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 700;
+        font-size: 1.825rem;
+        line-height: 1.2;
+    }
+
+    .form{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .email{
+            flex-basis: 100%;
+        }
+        .password{
+            flex-basis: 100%;
+        }
+        input[type=submit]{
+            background-color: #000;
+            color: #fff;
+            font-family:'Source Sans Pro', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: .5rem;
+            
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+    .formSeperator{
+        position:relative;
+        display:inline-block ;
+        color:#000000;
+        background-color: #ffffff;
+        margin-left: 50%;
+        padding: .5rem;
+        transform: translate(-50%,-60%);
+    }
+    .walletLink{
+        background-color: #000;
+        width: 100%;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 600;
+        font-size: 1.2rem;
+        text-align: center;
+        color: #fff;
+        padding: 1rem;
+        border-radius: .5rem;
+        cursor: pointer;
+    }
+}

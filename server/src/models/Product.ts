@@ -80,7 +80,7 @@ const ProductSchema = new mongoose.Schema({
   warrantyType: {
     type: String,
     enum: {
-      value: ["Standard", "Extended", "Lifetime", "others"],
+      values: ["Standard", "Extended", "Lifetime", "others"],
     },
   },
 });

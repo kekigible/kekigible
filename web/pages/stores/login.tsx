@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import Input from "../components/input/input";
-import Navbar from "../components/navbar/navbar";
-import styles from "../styles/login.module.scss"
+import Input from "../../components/input/input";
+import Navbar from "../../components/navbar/navbar";
+import styles from "../../styles/login.module.scss";
 
 const  Login = () => {
     return(

@@ -11,3 +11,13 @@ interface nftProp {
   warrantyType: string;
   productId: string;
 }
+
+interface products {
+  productId: string;
+  productName: string;
+  category: string;
+  warrantyAvial: boolean;
+  warrantyType?: string;
+  warrantyPeriod?: string;
+  sold: boolean;
+}

@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import Input from "../components/input/input";
-import Navbar from "../components/navbar/navbar";
-import styles from "../styles/signup.module.scss"
+import Input from "../../components/input/input";
+import Navbar from "../../components/navbar/navbar";
+import styles from "../../styles/signup.module.scss"
 
 const Signup = () =>{
     return(
@@ -20,16 +20,16 @@ const Signup = () =>{
           <section className={styles.formContainer}>
             <h2 className={styles.title}>Sign up</h2>
             <form action="#" className={styles.form}>
-                <div className={styles.email}>
+                <div className={styles.fb100}>
                     <Input type="email" id="email" label="Email*" required={true}/>
                 </div>
-                <div className={styles.firstname}>
-                    <Input type="text" id="firstname" label="First Name*" required={true}/>
+                <div className={styles.fb45}>
+                    <Input type="text" id="firstName" label="First Name*" required={true}/>
                 </div>
-                <div className={styles.lastname}>
+                <div className={styles.fb45}>
                     <Input type="text" id="lastname" label="Last Name*"  required={true}/>
                 </div>
-                <div className={styles.password}>
+                <div className={styles.fb100}>
                     <Input type="password" id="password" label="Password*" required={true} />
                 </div>
 

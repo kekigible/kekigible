@@ -27,10 +27,20 @@ const AddProduct = () =>{
                 <Input id="productId" label="Product ID" type="text"></Input>
                 </div>
                 <div className={styles.fb45}>
-                <Input id="purchaseDate" label="Purchase Date" type="Date"></Input>
+                <Input id="productImage" label="Product Image" type="file"></Input>
                 </div>
                 <div className={styles.fb100}>
-                <Input id="productImage" label="Product Image" type="file"></Input>
+                <label htmlFor="productCategory" className={styles.fslabel}>Product Category: </label>
+                <select name="productCategory" id="productCategory" className={styles.select}>
+                    <option value="laptop">Laptop</option>
+                    <option value="smartphone">Smart Phone</option>
+                    <option value="homeAppliances">Home Appliances</option>
+                    <option value="books">Books</option>
+                    <option value="Stationary">Stationary</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="watches">Watches</option>
+                    <option value="other">other</option>
+                </select>
                 </div>
                 <div className={styles.fb100}>
                 <label htmlFor="isWarrentied" className={styles.fslabel}>Does the product conatins a Warranty? </label>

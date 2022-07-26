@@ -1,5 +1,8 @@
 import { sign, verify } from "jsonwebtoken";
 import { Request, Response } from "express";
+import uuid4 from "uuid4";
+
+// did these changes becuse of objectid type error in auth controller
 
 const createRefreshToken = (id) =>
   sign(
@@ -23,10 +26,9 @@ const createAccessToken = (id) =>
     }
   );
 
-const verifyRefreshToken = (token: string) =>
-  verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
+const verifyRefreshToken = (token) => verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
 
-const verifyAccessToken = (token: string) => verify(token, process.env.JWT_SECRET_KEY);
+const verifyAccessToken = (token) => verify(token, process.env.JWT_SECRET_KEY);
 
 const sendRefreshTokenCookie = (res: Response, token: string) => {
   res.cookie("_crid", token, {
@@ -34,10 +36,13 @@ const sendRefreshTokenCookie = (res: Response, token: string) => {
   });
 };
 
+const genUUID = () => uuid4();
+
 export {
   createAccessToken,
   createRefreshToken,
   verifyAccessToken,
   verifyRefreshToken,
   sendRefreshTokenCookie,
+  genUUID,
 };

@@ -23,13 +23,59 @@ const refreshToken = async (req: Request, res: Response, next: NextFunction) => 
   }
 
   try {
-    const payload = verifyRefreshToken(token) as PayloadType;
+    const payload = verifyRefreshToken(token) as unknown as PayloadType;
     const user = await User.findOne({ id: payload.id });
     if (!user) {
       throw new Unauthorized("User not present");
       return;
     }
     sendRefreshTokenCookie(res, createRefreshToken(user.id));
+    res.status(200).json({ accessToken: createAccessToken(payload.id) });
+  } catch (err) {
+    throw new ErrorClass(500, "Couldn't refresh token");
+  }
+};
+
+const refreshTokenCompany = async (req: Request, res: Response, next: NextFunction) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const token = req.cookies._crid;
+  if (!token) {
+    // res.status(400).json({ status: "No refreshToken" });
+    throw new BadRequest("No refresh token");
+    return;
+  }
+
+  try {
+    const payload = verifyRefreshToken(token) as unknown as PayloadType;
+    const company = await Company.findOne({ id: payload.id });
+    if (!company) {
+      throw new Unauthorized("Company not present");
+      return;
+    }
+    sendRefreshTokenCookie(res, createRefreshToken(company.id));
+    res.status(200).json({ accessToken: createAccessToken(payload.id) });
+  } catch (err) {
+    throw new ErrorClass(500, "Couldn't refresh token");
+  }
+};
+
+const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const token = req.cookies._crid;
+  if (!token) {
+    // res.status(400).json({ status: "No refreshToken" });
+    throw new BadRequest("No refresh token");
+    return;
+  }
+
+  try {
+    const payload = verifyRefreshToken(token) as unknown as PayloadType;
+    const admin = await Admin.findOne({ id: payload.id });
+    if (!admin) {
+      throw new Unauthorized("Company not present");
+      return;
+    }
+    sendRefreshTokenCookie(res, createRefreshToken(admin.id));
     res.status(200).json({ accessToken: createAccessToken(payload.id) });
   } catch (err) {
     throw new ErrorClass(500, "Couldn't refresh token");
@@ -151,6 +197,8 @@ export {
   registerUser,
   loginUser,
   refreshToken,
+  refreshTokenCompany,
+  refreshTokenAdmin,
   loginCompany,
   loginAdmin,
   registerCompany,

@@ -85,18 +85,20 @@ const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction
 //USER login/register
 
 const registerUser = AsyncWrapper(async (req, res) => {
-  const { username, password, email } = req.body;
+  const { firstname, lastname, password, email, phonenumber } = req.body;
   let hashedPassword = bcrypt.hashSync(password, 8);
 
-  if (!username || !password) throw new BadRequest("Please enter username and password");
+  if (!firstname || !password) throw new BadRequest("Please enter username and password");
 
   let user = await User.findOne({ email: req.body.email });
   if (user) throw new BadRequest("User already present");
 
   user = await User.create({
-    username: username,
+    firstname: firstname,
+    lastname: lastname,
     email: email,
     password: hashedPassword,
+    phonenumber: phonenumber,
   });
 
   const token = createAccessToken(user._id);
@@ -122,18 +124,19 @@ const loginUser = AsyncWrapper(async (req, res) => {
 //Company
 
 const registerCompany = AsyncWrapper(async (req, res) => {
-  const { username, password, email } = req.body;
+  const { shopname, password, email, number } = req.body;
   let hashedPassword = bcrypt.hashSync(password, 8);
 
-  if (!username || !password) throw new BadRequest("Please enter username and password");
+  if (!shopname || !password) throw new BadRequest("Please enter username and password");
 
   let user = await Company.findOne({ email: req.body.email });
   if (user) throw new BadRequest("User already present");
 
   user = await User.create({
-    username: username,
+    shopname: shopname,
     email: email,
     password: hashedPassword,
+    number: number,
   });
 
   const token = createAccessToken(user._id);

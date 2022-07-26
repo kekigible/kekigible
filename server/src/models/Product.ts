@@ -3,7 +3,7 @@ import { genUUID } from "../utils/Utils";
 import User, { UserSchema } from "./User";
 
 const ProductSchema = new mongoose.Schema({
-  name: {
+  productName: {
     type: String,
     min: [5, "Minimum 5 letter word"],
     max: [20, "Maximum 20 letter word"],
@@ -59,6 +59,29 @@ const ProductSchema = new mongoose.Schema({
   resoldVoid: {
     type: Boolean,
     default: false,
+  },
+
+  //according to front-end
+
+  productDate: {
+    type: Date,
+    validate: {
+      validator: function (v) {
+        return (
+          v && // check that there is a date object
+          v.getTime() > Date.now()
+          // && v.getTime() < Date.now() + 90 * 24 * 60 * 60 * 1000
+        );
+      },
+      message: "An event must be at least 1 day from now and not more than 90 days.",
+    },
+  },
+
+  warrantyType: {
+    type: String,
+    enum: {
+      value: ["Standard", "Extended", "Lifetime", "others"],
+    },
   },
 });
 

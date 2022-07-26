@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { extendWarranty } from "../controllers/Prodcut";
+import { createProduct, extendWarranty } from "../controllers/Prodcut";
 
 const ProductRouter = Router();
 
-ProductRouter.post("/collection/create", extendWarranty);
+ProductRouter.post("/collection/extend", extendWarranty);
+ProductRouter.post("/collection/create", createProduct);
 
 export default ProductRouter;

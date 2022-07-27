@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import User from "../models/User";
 import AsyncWrapper from "../middleware/Async";
 import { BadRequest, ErrorClass, Unauthorized } from "../errors/Error";
@@ -12,6 +12,7 @@ import {
 import { PayloadType } from "../types";
 import Company from "../models/Company";
 import Admin from "../models/Admin";
+import { json } from "stream/consumers";
 
 const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-underscore-dangle
@@ -84,27 +85,31 @@ const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction
 
 //USER login/register
 
-const registerUser = AsyncWrapper(async (req, res) => {
+const registerUser = async (req, res) => {
   const { firstname, lastname, password, email, phonenumber } = req.body;
+  console.log("working", req.body);
   let hashedPassword = bcrypt.hashSync(password, 8);
+  try {
+    if (!firstname || !password) throw new BadRequest("Please enter username and password");
 
-  if (!firstname || !password) throw new BadRequest("Please enter username and password");
+    let user = await User.findOne({ email: req.body.email });
+    if (user) res.status(500).json({ status: "failure", message: "User already present" });
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) throw new BadRequest("User already present");
+    user = await User.create({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: hashedPassword,
+      phonenumber: phonenumber,
+    });
 
-  user = await User.create({
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    password: hashedPassword,
-    phonenumber: phonenumber,
-  });
-
-  const token = createAccessToken(user._id);
-  sendRefreshTokenCookie(res, createRefreshToken(user.id));
-  res.status(200).json({ auth: true, token: token });
-});
+    const token = createAccessToken(user._id);
+    sendRefreshTokenCookie(res, createRefreshToken(user._id));
+    res.status(200).json({ auth: true, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "success", message: error });
+  }
+};
 
 const loginUser = AsyncWrapper(async (req, res) => {
   const user = await User.findOne({ id: req.id });
@@ -132,7 +137,7 @@ const registerCompany = AsyncWrapper(async (req, res) => {
   let user = await Company.findOne({ email: req.body.email });
   if (user) throw new BadRequest("User already present");
 
-  user = await User.create({
+  user = await Company.create({
     shopname: shopname,
     email: email,
     password: hashedPassword,
@@ -170,7 +175,7 @@ const registerAdmin = AsyncWrapper(async (req, res) => {
   let user = await Admin.findOne({ email: req.body.email });
   if (user) throw new BadRequest("User already present");
 
-  user = await User.create({
+  user = await Admin.create({
     username: username,
     email: email,
     password: hashedPassword,

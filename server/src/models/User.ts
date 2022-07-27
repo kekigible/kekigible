@@ -6,9 +6,16 @@ var validateEmail = function (email) {
 };
 
 const UserSchema = new mongoose.Schema({
-  username: {
+  firstname: {
     type: String,
-    required: [true, "Name is required"],
+    required: [true, "first name is required"],
+    trim: true,
+    maxlength: [20, "name cant be more than 20 characters"],
+  },
+
+  lastname: {
+    type: String,
+    required: [true, "first name is required"],
     trim: true,
     maxlength: [20, "name cant be more than 20 characters"],
   },
@@ -25,6 +32,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "password is required"],
+  },
+
+  phonenumber: {
+    type: Number,
   },
 });
 

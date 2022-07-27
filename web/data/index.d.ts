@@ -11,3 +11,16 @@ interface nftProp {
   warrantyType: string;
   productId: string;
 }
+
+interface ContextAppType {
+  accessToken: string;
+  setAccessToken: (token: string) => void;
+}
+
+interface Props {
+  children: ReactNode;
+}
+
+interface appState {
+  accessToken: String;
+}

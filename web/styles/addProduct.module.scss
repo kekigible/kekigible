@@ -27,17 +27,20 @@
         padding: 1rem;
         .fb45{
             flex-basis: 45%;
+            margin-bottom: 0.5rem;
         }
         .fb100{
             flex-basis: 100%;
+            margin-bottom: 0.5rem;
         }
         .fslabel{
             font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
         .warrantyCb{
             padding: 1rem;
             transform: scale(1.5);
-            margin-bottom: 1rem;
+            margin: 1rem 0;
         }
         .select{
             padding: 1rem;
@@ -48,7 +51,6 @@
             font-weight: 400;
             color: #454545;
             width:25rem;
-            margin-top: 1rem;
         }
     }
 }

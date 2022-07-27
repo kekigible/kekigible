@@ -1,9 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
 
+<<<<<<< HEAD:web/pages/login.tsx
 import Input from "../components/input/input";
 import Navbar from "../components/navbar/navbar";
 import styles from "../styles/login.module.scss";
+=======
+import Input from "../../components/input/input";
+import Navbar from "../../components/navbar/navbar";
+import styles from "../../styles/login.module.scss";
+>>>>>>> f382cdf710d50631ba3b0c3a931f37e2c2161708:web/pages/stores/login.tsx
 
 const Login = () => {
   return (

@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { FormEventHandler } from "react";
 
+<<<<<<< HEAD:web/pages/signup.tsx
 import Input from "../components/input/input";
 import Navbar from "../components/navbar/navbar";
 import { useAppContext } from "../context/context";
@@ -19,6 +20,39 @@ const Signup = () => {
       email: e.target.email.value,
       // phonenumber: e.target.phonenumber.value,
     };
+=======
+import Input from "../../components/input/input";
+import Navbar from "../../components/navbar/navbar";
+import styles from "../../styles/signup.module.scss"
+
+const Signup = () =>{
+    return(
+        <div className={styles.container}>
+        <Head>
+          <title>Kekigible|Signup</title>
+          <meta name="Kekigible" content="Blockchain-based eCommerce warranty system using NFTs" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <header>
+            <Navbar />
+        </header>
+        <main className={styles.main}>
+          <section className={styles.formContainer}>
+            <h2 className={styles.title}>Sign up</h2>
+            <form action="#" className={styles.form}>
+                <div className={styles.fb100}>
+                    <Input type="email" id="email" label="Email*" required={true}/>
+                </div>
+                <div className={styles.fb45}>
+                    <Input type="text" id="firstName" label="First Name*" required={true}/>
+                </div>
+                <div className={styles.fb45}>
+                    <Input type="text" id="lastname" label="Last Name*"  required={true}/>
+                </div>
+                <div className={styles.fb100}>
+                    <Input type="password" id="password" label="Password*" required={true} />
+                </div>
+>>>>>>> f382cdf710d50631ba3b0c3a931f37e2c2161708:web/pages/users/signup.tsx
 
     console.log(formBody);
 

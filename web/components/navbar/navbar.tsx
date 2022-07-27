@@ -8,17 +8,17 @@ const Navbar = () =>{
                 <ul className={styles.linkContainer} >
 
                     <li className={styles.link}>
-                        <Link href="./">
+                        <Link href="/">
                             <a>Home</a>
                         </Link>
                     </li>
                     <li className={styles.link}>
-                        <Link href="./login">
-                            <a>Login</a>
+                        <Link href="/stores/signup">
+                            <a>Signup Stores</a>
                         </Link>
                     </li>
                     <li className={styles.link}>
-                        <Link href="./signup">
+                        <Link href="/users/signup">
                             <a>Signup</a>
                         </Link>
                     </li>

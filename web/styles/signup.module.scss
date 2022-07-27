@@ -19,22 +19,14 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        .email{
+        .fb100{
             min-width: 18rem;
             display: block;
             flex:100%;
         }
-        .lastname{
+        .fb45{
             display: inline-block;
             flex-basis: 45%;
-        }
-        .firstname{
-            display: inline;
-            flex-basis: 45%;
-        }
-        .password{
-            display: block;
-            flex: 100%;
         }
         input[type=submit]{
             background-color: #000;

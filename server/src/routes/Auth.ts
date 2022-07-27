@@ -10,7 +10,11 @@ import {
   registerAdmin,
   loginAdmin,
 } from "../controllers/Auth";
-import {authMiddleware, authMiddlewareAdmin, authMiddlewareCompany} from "../middleware/Auth";
+import {
+  authMiddleware,
+  authMiddlewareAdmin,
+  authMiddlewareCompany,
+} from "../middleware/Auth";
 
 const AuthRouter = Router();
 

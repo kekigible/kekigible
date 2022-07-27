@@ -10,7 +10,7 @@ export const authMiddleware = async (req, res, next) => {
 
   const authHeader = req.headers.authorization;
 
-  //   console.log(authHeader);
+  console.log(authHeader);
 
   try {
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -23,6 +23,8 @@ export const authMiddleware = async (req, res, next) => {
       token,
       process.env.JWT_SECRET_KEY as string
     ) as unknown as PayloadType;
+
+    console.log("payload", payload);
 
     req.user = await User.findOne({ id: payload.id });
 

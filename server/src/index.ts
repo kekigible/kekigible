@@ -13,8 +13,13 @@ const port = process.env.PORT || 8000;
 const app = express();
 
 //middleware
+const corsOption = {
+  origin: true, //included origin as true
+  credentials: true, //included credentials as true
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOption));
 
 app.use("/", AuthRouter);
 app.use("/", CollectionRouter);

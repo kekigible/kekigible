@@ -115,15 +115,10 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("working login", req.user);
   try {
-    // const user = await User.findOne({ id: req.user.id });
-    const user = req.user;
+    const user = await User.findOne({ email: req.body.email });
     if (!user) throw new ErrorClass(400, "No such user present");
-
-    console.log(req.body.password);
-
-    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
     if (!passwordIsValid)
       return res
@@ -161,18 +156,21 @@ const registerCompany = AsyncWrapper(async (req, res) => {
 });
 
 const loginCompany = AsyncWrapper(async (req, res) => {
-  const user = await Company.findOne({ id: req.id });
-  if (!user) throw new ErrorClass(400, "No such user present");
+  try {
+    const user = await Company.findOne({ email: req.body.email });
+    if (!user) throw new ErrorClass(400, "No such user present");
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid)
+      return res
+        .status(401)
+        .json({ auth: false, token: null, message: "Password is incorrect" });
 
-  if (!passwordIsValid)
-    return res
-      .status(401)
-      .json({ auth: false, token: null, message: "Password is incorrect" });
-
-  const token = createAccessToken(user._id);
-  res.status(200).json({ status: "success , loged in", data: user, token: token });
+    const token = createAccessToken(user._id);
+    res.status(200).json({ status: "success , loged in", data: user, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "success", message: error });
+  }
 });
 
 //ADMIN
@@ -195,22 +193,24 @@ const registerAdmin = AsyncWrapper(async (req, res) => {
   const token = createAccessToken(user._id);
   sendRefreshTokenCookie(res, createRefreshToken(user.id));
   res.status(200).json({ auth: true, token: token });
-});
+}) ;
 
 const loginAdmin = AsyncWrapper(async (req, res) => {
-  const user = await Admin.findOne({ id: req.id });
-  if (!user) throw new ErrorClass(400, "No such user present");
+  try {
+    const user = await Admin.findOne({ email: req.body.email });
+    if (!user) throw new ErrorClass(400, "No such user present");
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid)
+      return res
+        .status(401)
+        .json({ auth: false, token: null, message: "Password is incorrect" });
 
-  if (!passwordIsValid)
-    return res
-      .status(401)
-      .json({ auth: false, token: null, message: "Password is incorrect" });
-
-  const token = createAccessToken(user._id);
-  res.status(200).json({ status: "success , loged in", data: user, token: token });
-});
+    const token = createAccessToken(user._id);
+    res.status(200).json({ status: "success , loged in", data: user, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "success", message: error });
+}});
 
 export {
   registerUser,

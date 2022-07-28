@@ -15,6 +15,7 @@ const Login = () => {
     const response = await requestLogin({
       password: e.target.password.value,
       email: e.target.email.value,
+      entity: "user",
     });
     window.location.href="/users/dashboard";
     console.log(response);

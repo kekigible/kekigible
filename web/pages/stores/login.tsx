@@ -3,9 +3,22 @@ import Link from "next/link";
 
 import Input from "../../components/input/input";
 import Navbar from "../../components/navbar/navbar";
-import styles from "../styles/login.module.scss";
+import { useAppContext } from "../../context/context";
+import styles from "../../styles/login.module.scss";
 
 const Login = () => {
+  const { requestLogin, accessToken } = useAppContext();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await requestLogin({
+      password: e.target.password.value,
+      email: e.target.email.value,
+      entity: "company",
+    });
+    console.log(response);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -22,7 +35,7 @@ const Login = () => {
       <main className={styles.main}>
         <section className={styles.formContainer}>
           <h2 className={styles.title}>Log in</h2>
-          <form action="#" className={styles.form}>
+          <form action="#" className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.email}>
               <Input type="email" id="email" label="Email*" required={true} />
             </div>

@@ -3,7 +3,7 @@ import { createProduct, extendWarranty } from "../controllers/Prodcut";
 
 const ProductRouter = Router();
 
-ProductRouter.post("/collection/extend", extendWarranty);
-ProductRouter.post("/collection/create", createProduct);
+ProductRouter.post("/product/extend", extendWarranty);
+ProductRouter.post("/product/create", createProduct);
 
 export default ProductRouter;

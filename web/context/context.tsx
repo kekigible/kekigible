@@ -9,6 +9,7 @@ const AppContextDefaultValues: ContextAppType = {
     return Boolean;
   },
   requestLogin: () => {},
+  createProduct: (body: any) => {},
 };
 
 const AppContext = createContext<ContextAppType>(AppContextDefaultValues);
@@ -26,17 +27,20 @@ const AppProvider = ({ children }: Props) => {
     else true;
   };
 
-  const requestLogin = async (body: { password: string; email: string }) => {
+  const requestLogin = async (body: auth) => {
     try {
-      const response = await axios.post("http://localhost:8000/auth/login/user", body, {
-        headers: { authorization: `Bearer ${appGlobalState.accessToken}` },
-      });
+      const response = await axios.post(
+        `http://localhost:8000/auth/login/${body.entity}`,
+        { email: body.email, password: body.password },
+        {
+          headers: { authorization: `Bearer ${appGlobalState.accessToken}` },
+        }
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
   const refreshToken = async () => {
     try {
       const response = await axios.get("http://localhost:8000/refreshToken", {
@@ -51,6 +55,15 @@ const AppProvider = ({ children }: Props) => {
     setGlobalAppState((prevstate) => {
       return { ...prevstate, accessToken: token };
     });
+  };
+
+  const createProduct = async (body) => {
+    try {
+      const product = await axios.post("http://localhost:8000/collection/create", body);
+      console.log(product);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // useEffect(() => {
@@ -70,6 +83,7 @@ const AppProvider = ({ children }: Props) => {
           setAccessToken,
           isLogedIn,
           requestLogin,
+          createProduct,
         }}
       >
         {children}

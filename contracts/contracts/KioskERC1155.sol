@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "./mixins/KioskWarranty.sol";
 import "./mixins/KioskForceBalance.sol";
 
@@ -13,10 +14,11 @@ import "./mixins/KioskForceBalance.sol";
  */
 contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
 
+    using ECDSA for bytes32;
     // Number of NFTs minted
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIDs;
-    Counters.Counter private _sold;
+    // Counters.Counter private _sold;
     uint256 public price;
 
     // address public immutable FactoryAddress;
@@ -31,28 +33,22 @@ contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
         price = _price;
     }
 
-    function initialize() public onlyMinter {
-
-        // Mints NFTs
-        // Replace with mintBatch later
-        while(_tokenIDs.current() < supply){
-            _tokenIDs.increment();
-            _mint(address(this), _tokenIDs.current(), 1, '0x00');
-        }
-
-    }
-
-    function buy() canBuy(_msgSender()) onlyNonBanned payable public {
-        require(_sold.current() < _tokenIDs.current(), "All sold out");
+    function mint() canBuy(_msgSender()) onlyNonBanned payable public {
+        require(_tokenIDs.current() < supply, "All sold out");
         require(msg.value >= price, "Not enough to buy");
-        _sold.increment();
-        uint256 id = _sold.current();
+        _tokenIDs.increment();
+        uint256 id = _tokenIDs.current();
         Warranties[id].timestamp = block.timestamp + Warranties[id].timestamp;
-        safeTransferFrom(address(this), _msgSender(), id, 1, '0x00');
+        _mint(_msgSender(), id, 1, '0x00');
+        _updateBuy(_msgSender());
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function humanFirst(bytes32 hash, bytes memory signature) public view returns(bool) {
+        return hash.recover(signature) == _msgSender();
     }
 
     

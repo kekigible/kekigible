@@ -53,14 +53,14 @@ const AppProvider = ({ children }: Props) => {
     });
   };
 
-  useEffect(() => {
-    // refreshToken().then((data) => console.log(data));
-    axios
-      .get("http://localhost:8000/refreshToken", {
-        withCredentials: true,
-      })
-      .then((data) => console.log(data));
-  }, []);
+  // useEffect(() => {
+  //   // refreshToken().then((data) => console.log(data));
+  //   axios
+  //     .get("http://localhost:8000/refreshToken", {
+  //       withCredentials: true,
+  //     })
+  //     .then((data) => console.log(data));
+  // }, []);
 
   return (
     <>

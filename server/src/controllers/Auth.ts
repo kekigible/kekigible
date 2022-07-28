@@ -16,7 +16,7 @@ import { json } from "stream/consumers";
 
 const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-underscore-dangle
-  console.log(req.co);
+  // console.log(req.co);
   const token = req.cookies._crid;
   if (!token) {
     // res.status(400).json({ status: "No refreshToken" });
@@ -87,13 +87,14 @@ const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction
 //USER login/register
 
 const registerUser = async (req, res) => {
-  const { firstname, lastname, password, email, phonenumber } = req.body;
+  const { firstname, lastname, password, email } = req.body;
   console.log("working signin", req.body);
   let hashedPassword = bcrypt.hashSync(password, 8);
   try {
     if (!firstname || !password) throw new BadRequest("Please enter username and password");
 
     let user = await User.findOne({ email: req.body.email });
+    console.log(user);
     if (user) res.status(500).json({ status: "failure", message: "User already present" });
 
     user = await User.create({
@@ -101,14 +102,15 @@ const registerUser = async (req, res) => {
       lastname: lastname,
       email: email,
       password: hashedPassword,
-      phonenumber: phonenumber,
     });
 
+    console.log(user);
     const token = createAccessToken(user._id);
     sendRefreshTokenCookie(res, createRefreshToken(user._id));
     res.status(200).json({ auth: true, token: token });
   } catch (error) {
-    res.status(500).json({ status: "success", message: error });
+    console.log(error);
+    res.status(500).json({ status: "failure", message: error });
   }
 };
 
@@ -118,6 +120,8 @@ const loginUser = async (req, res) => {
     // const user = await User.findOne({ id: req.user.id });
     const user = req.user;
     if (!user) throw new ErrorClass(400, "No such user present");
+
+    console.log(req.body.password);
 
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 

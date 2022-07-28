@@ -12,6 +12,27 @@ interface nftProp {
   productId: string;
 }
 
+interface products {
+  productId: string;
+  productName: string;
+  category: string;
+  warrantyAvial: boolean;
+  warrantyType: string;
+  warrantyPeriod?: string;
+  sold: boolean;
+  purchaseDate?: string;
+}
+
+interface collection {
+  collectionName: string;
+  category: string;
+  warrantyAvail: boolean;
+  warrantyType?: string;
+  warrantyPeriod?: string;
+  amountRemaining: number;
+  productUrl?: string;
+}
+
 interface ContextAppType {
   accessToken: string;
   setAccessToken: (token: string) => void;

@@ -52,5 +52,19 @@
             color: #454545;
             width:25rem;
         }
+        input[type=submit]{
+            background-color: #000;
+            color: #fff;
+            font-family:'Source Sans Pro', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: .5rem;
+            
+            &:hover{
+                cursor: pointer;
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ const Hero = () => {
                 <Link  href='./users/login'>
                     <p>Dashbord</p>
                 </Link>
-                <Link  href='./shopDashboard'>
+                <Link  href='./stores/shopDashboard'>
                     <p>Dashbord for Shops</p>
                 </Link>
             </section>

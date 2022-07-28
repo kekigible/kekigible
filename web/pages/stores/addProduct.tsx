@@ -2,8 +2,8 @@ import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import styles from "../styles/addProduct.module.scss"
-import Input from "../components/input/input";
+import styles from "../../styles/addProduct.module.scss"
+import Input from "../../components/input/input";
 const AddProduct = () =>{
     const [isWarranty,setIsWarranty] = useState(false);
     return (
@@ -15,7 +15,7 @@ const AddProduct = () =>{
         </Head>
         <header>
             <div className={styles.header}>
-                <Link href="./shopDashboard"><p className={styles.backArrow}>&#8592;</p></Link>
+                <Link href="/stores/shopDashboard"><p className={styles.backArrow}>&#8592;</p></Link>
             </div>
         </header>
         <main className={styles.main}>
@@ -24,10 +24,13 @@ const AddProduct = () =>{
                 <Input id="productName" label="Product Name" type="text"></Input>
                 </div>
                 <div className={styles.fb45}>
-                <Input id="productId" label="Product ID" type="text"></Input>
+                <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
                 </div>
                 <div className={styles.fb45}>
                 <Input id="productImage" label="Product Image" type="file"></Input>
+                </div>
+                <div className={styles.fb100}>
+                <Input id="producturl" label="Product Url" type="url"></Input>
                 </div>
                 <div className={styles.fb100}>
                 <label htmlFor="productCategory" className={styles.fslabel}>Product Category: </label>
@@ -68,6 +71,10 @@ const AddProduct = () =>{
                                     <option value="months">Months</option>
                                     <option value="years">Years</option>
                                 </select>
+                            </div>
+                            <div className={styles.fb100}>
+                            <label htmlFor="resoldVoilation" className={styles.fslabel}>Will warranty be void when resold? </label>
+                            <input type="checkbox" name="resoldVoilation" id="resoldVoilation" className={styles.warrantyCb} onChange={()=>{}}/>
                             </div>
                         </>
                     )

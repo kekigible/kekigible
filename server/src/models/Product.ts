@@ -3,22 +3,9 @@ import { genUUID } from "../utils/Utils";
 import User, { UserSchema } from "./User";
 
 const ProductSchema = new mongoose.Schema({
-  productName: {
-    type: String,
-    min: [5, "Minimum 5 letter word"],
-    max: [20, "Maximum 20 letter word"],
-    required: [true, "Item Name is required"],
-    trim: true,
-  },
-
-  description: {
-    type: String,
-    min: [5, "Minimal description required"],
-  },
-
   productId: {
     type: String,
-    default: genUUID(),
+    default: 1,
     unique: true,
   },
 

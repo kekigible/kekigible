@@ -9,6 +9,7 @@ const AppContextDefaultValues: ContextAppType = {
     return Boolean;
   },
   requestLogin: () => {},
+  createProduct: (body: any) => {},
 };
 
 const AppContext = createContext<ContextAppType>(AppContextDefaultValues);
@@ -53,6 +54,15 @@ const AppProvider = ({ children }: Props) => {
     });
   };
 
+  const createProduct = async (body) => {
+    try {
+      const product = await axios.post("http://localhost:8000/product/create", body);
+      console.log(product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // useEffect(() => {
   //   // refreshToken().then((data) => console.log(data));
   //   axios
@@ -70,6 +80,7 @@ const AppProvider = ({ children }: Props) => {
           setAccessToken,
           isLogedIn,
           requestLogin,
+          createProduct,
         }}
       >
         {children}

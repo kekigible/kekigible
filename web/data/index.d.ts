@@ -17,6 +17,7 @@ interface ContextAppType {
   setAccessToken: (token: string) => void;
   isLogedIn: () => void;
   requestLogin: ({ password: string, email: string }) => void;
+  createProduct: (body: any) => void;
 }
 
 interface Props {

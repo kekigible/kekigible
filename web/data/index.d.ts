@@ -37,7 +37,7 @@ interface ContextAppType {
   accessToken: string;
   setAccessToken: (token: string) => void;
   isLogedIn: () => void;
-  requestLogin: ({ password: string, email: string }) => void;
+  requestLogin: (body: auth) => void;
   createProduct: (body: any) => void;
 }
 
@@ -47,4 +47,10 @@ interface Props {
 
 interface appState {
   accessToken: String;
+}
+
+interface auth {
+  password: string;
+  email: string;
+  entity: String;
 }

@@ -26,11 +26,19 @@ abstract contract KioskWarranty is KekAccessControl {
         // address minter; //probably not needed
     }
 
+    NFTMetadata public defaultWarranty;
+
     mapping (uint256 => NFTMetadata) public Warranties; // ID -> NFTMetadata
 
-    constructor(bool _soulbound, bool _voidWhenSold){
+    constructor(bool _soulbound, bool _voidWhenSold, int _times, bool _decay, uint _timedelta){
         soulbound = _soulbound;
         voidWhenSold = _voidWhenSold;
+        defaultWarranty = NFTMetadata(
+            _times,
+            _decay,
+            _timedelta,
+            false
+        );
     }
 
     /**

@@ -12,15 +12,35 @@ pragma solidity ^0.8.9;
  */
 
 import "./mixins/KekToken.sol";
+import "./KioskERC1155.sol";
 
 contract Factory is KekToken {
-    address public immutable FactoryAddress;
+    address[] private shops1155;
     constructor(uint256 supply) KekToken(supply) {
-        FactoryAddress = address(this);
     }
 
-    function create() onlyAdmin public {
-
+    function create1155(
+        bool _soulbound,
+        bool _voidWhenSold,
+        uint256 _supply,
+        uint256 _BuyBlock,
+        uint256 _price,
+        int _times,
+        bool _decay,
+        uint _timedelta
+        ) onlyAdmin public returns(address) {
+        KioskERC1155 shop = new KioskERC1155(
+            _soulbound,
+            _voidWhenSold,
+            _supply,
+            _BuyBlock,
+            _price,
+            _times,
+            _decay,
+            _timedelta
+        );
+        shops1155.push(address(shop));
+        return(address(shop));
     }
 
     /**

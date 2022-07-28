@@ -1,11 +1,13 @@
 import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { FormEventHandler } from "react";
 import Input from "../../components/input/input";
 import Navbar from "../../components/navbar/navbar";
 import { useAppContext } from "../../context/context";
 import styles from "../../styles/signup.module.scss";
+import illustration from '../../public/images/7023606.jpg'
 
 const Signup = () => {
   const { setAccessToken, accessToken, isLogedIn } = useAppContext();
@@ -82,18 +84,7 @@ const Signup = () => {
         <section className={styles.middleSpace}></section>
         <section className={styles.rightView}>
           <div className={styles.rightViewTile}>
-            <h2>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo perspiciatis ab
-              corporis recusandae earum optio dicta impedit dolor eaque in maiores, sit nobis
-              magni eveniet odio nam ratione voluptatibus blanditiis veritatis! Modi adipisci
-              perspiciatis molestias fugiat odit molestiae doloribus assumenda distinctio atque
-              voluptas fuga alias excepturi consequuntur pariatur architecto minus dicta labore
-              sequi at consectetur repellat, recusandae praesentium dolores optio. Eaque
-              necessitatibus dolores fugit cupiditate ipsa tempore suscipit earum alias, odit
-              dicta consequuntur a. Quisquam, a sunt. Minima sequi quidem, expedita adipisci
-              debitis pariatur tempora sapiente quis sint ab ipsa voluptates tempore illo
-              similique perferendis ratione asperiores voluptatem animi autem.
-            </h2>
+            <Image src={illustration}  alt="illustration" ></Image>
           </div>
         </section>
       </main>

@@ -27,9 +27,9 @@ const Sell = () =>{
                 <div className={styles.fb100}>
                     <Input id="productIds" type="text" label="Product Ids"></Input>
                 </div>
-                <div className={styles.fb45}>
+                {/* <div className={styles.fb45}>
                     <Input id="password" type="password" label="Password"></Input>
-                </div>
+                </div> */}
                 <div className={styles.fb100}>
                 <input type="submit" value="Sell" />
                 </div>

@@ -16,6 +16,7 @@ const Login = () => {
       password: e.target.password.value,
       email: e.target.email.value,
     });
+    window.location.href="/users/dashboard";
     console.log(response);
   };
   return (

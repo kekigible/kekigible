@@ -77,4 +77,8 @@ contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
         }
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
+    /**
+     * @dev Pump money into the contract so more contracts can be generated for sale
+     */
+    receive() external payable {}
 }

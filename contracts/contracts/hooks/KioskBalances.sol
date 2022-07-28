@@ -17,17 +17,19 @@ contract KioskBalances is KekAccessControl {
      * @dev this mapping would store kiosk -> buyer -> token IDs he owns
      */
     mapping(address => mapping(address => uint256[])) public ERC1155Records;
+    address[] private kiosks;
 
     event ERC1155RecordUpdated(address indexed kiosk, address indexed buyer, uint256 indexed tokenID);
+    event ShopRecord(address indexed kiosk);
 
-    function addERC1155Record(address kiosk, address buyer, uint256 tokenID) public {
+    function addERC1155Record(address kiosk, address buyer, uint256 tokenID) onlyAdmin public {
         ERC1155Records[kiosk][buyer].push(tokenID);
         emit ERC1155RecordUpdated(kiosk, buyer, tokenID);
     }
 
+    function addKiosk(address kiosk) onlyAdmin public {
+        kiosks.push(kiosk);
+        emit ShopRecord(kiosk);
+    }
 
-    // function addERC721Record(address kiosk, address buyer, uint256 tokenID) public {
-    //     ERC1155Records[kiosk][buyer].push(tokenID);
-    //     emit ERC721RecordUpdated(kiosk, buyer, tokenID);
-    // }
 }

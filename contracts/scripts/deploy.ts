@@ -15,7 +15,7 @@ async function main() {
   // console.log("Lock with 1 ETH deployed to:", lock.address);
 
   const FactoryContract = await ethers.getContractFactory("Factory");
-  const factory = await FactoryContract.deploy(23);
+  const factory = await FactoryContract.deploy();
   await factory.deployed();
   console.log("FactoryContract should be deployed at", factory.address)
 }

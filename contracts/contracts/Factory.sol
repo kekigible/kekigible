@@ -11,40 +11,33 @@ pragma solidity ^0.8.9;
  *  3.1) Keeping constant minting for now, although not valid irl, since price would decrease
  */
 
-import "./mixins/KekToken.sol";
-import "./KioskERC1155.sol";
+import "./KekToken.sol";
+// import "./KioskERC1155.sol";
 
 contract Factory is KekToken {
-    address[] private shops1155;
-    constructor(uint256 supply) KekToken(supply) {
-    }
 
-    function create1155(
-        bool _soulbound,
-        bool _voidWhenSold,
-        uint256 _supply,
-        uint256 _BuyBlock,
-        uint256 _price,
-        int _times,
-        bool _decay,
-        uint _timedelta
-        ) onlyAdmin public returns(address) {
-        KioskERC1155 shop = new KioskERC1155(
-            _soulbound,
-            _voidWhenSold,
-            _supply,
-            _BuyBlock,
-            _price,
-            _times,
-            _decay,
-            _timedelta
-        );
-        shops1155.push(address(shop));
-        return(address(shop));
-    }
+    // function create1155(
+    //     bool _soulbound,
+    //     bool _voidWhenSold,
+    //     uint256 _supply,
+    //     uint256 _BuyBlock,
+    //     uint256 _price,
+    //     int _times,
+    //     bool _decay,
+    //     uint _timedelta
+    //     ) onlyAdmin public returns(address) {
+    //     KioskERC1155 shop = new KioskERC1155(
+    //         _soulbound,
+    //         _voidWhenSold,
+    //         _supply,
+    //         _BuyBlock,
+    //         _price,
+    //         _times,
+    //         _decay,
+    //         _timedelta
+    //     );
+    //     shops1155.push(address(shop));
+    //     return(address(shop));
+    // }
 
-    /**
-     * @dev Pump money into the contract so more contracts can be generated for sale
-     */
-    receive() external payable {}
 }

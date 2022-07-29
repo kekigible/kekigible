@@ -64,25 +64,25 @@ const AddProduct = () => {
       </header>
       <main className={styles.main}>
         <form
-          action="http://localhost:8000/collection/create"
-          onSubmit={handleSubmit}
+          action={"http://localhost:8000/collection/create?id=" + accessToken}
+          // onSubmit={handleSubmit}
           encType="multipart/form-data"
           method="POST"
         >
           <div className={styles.fb100}>
-            <Input id="productName" label="Product Name" type="text"></Input>
+            <Input id="productName" name="productName" label="Product Name" type="text"></Input>
           </div>
           <div className={styles.fb100}>
-            <Input id="description" label="Product Description" type="text"></Input>
+            <Input id="description" name="description" label="Product Description" type="text"></Input>
           </div>
           <div className={styles.fb45}>
-            <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
+            <Input id="numberOfProducts" name="numberOfProducts" label="No. of Products" type="number"></Input>
           </div>
           <div className={styles.fb45}>
-            <Input id="productImage" label="Nft Image" type="file"></Input>
+            <Input id="productImage" name="productImage" label="Nft Image" type="file"></Input>
           </div>
           <div className={styles.fb100}>
-            <Input id="productUrl" label="Product Url" type="url"></Input>
+            <Input id="productUrl" name="productUrl" label="Product Url" type="url"></Input>
           </div>
           <div>
             <p>

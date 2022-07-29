@@ -66,7 +66,6 @@ const collectionSchema = new mongoose.Schema({
 
   nftImageUrl: String,
 
-  nftLoyaltyImageUrl: String,
 
   nftSoulBound: { type: Boolean, default: false },
 

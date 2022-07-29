@@ -1,12 +1,36 @@
 import { Request, Response, NextFunction } from "express";
 import Collection from "../models/Collection";
 import { reqCompany } from "../types";
+import { PayloadType } from "../types";
+import Company from "../models/Company";
+import { verify } from "jsonwebtoken";
+
 
 const createCollection = async (req: reqCompany, res: Response) => {
   try {
-    console.log(req.body, req.file, req.user);
+    // console.log(req.body, req.file, req.user);
+    // console.log(req.query.id)
+    const payload = verify(
+      req.query.id as string,
+      process.env.JWT_SECRET_KEY as string
+    ) as unknown as PayloadType;
 
-    const newCollection = Collection.create({ ...req.body, nftImageUrl: req.file.buffer });
+    req.user = await Company.findOne({ id: payload.id });
+    console.log(req.body)
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+    // const newCollection = await Collection.create({ ...req.body, nftImageUrl: req.files[0].buffer });
+    const newCollection = await Collection.create({
+      name: req.body.productName as string,
+      companyId: req.user.companyId as string,
+      author: "me",
+      description: req.body.description,
+      decayingTime: 12222,
+      warrantyType: req.body.warrantyType || "Standard",
+      numberOfProducts: req.body.numberOfProducts,
+      nftImageUrl: req.files[0].buffer
+    })
     res.status(200).json({ statue: "Created Collection", data: newCollection });
   } catch (error) {
     res.status(500).json({ status: "Failed to create collection", message: error });

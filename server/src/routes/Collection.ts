@@ -12,8 +12,7 @@ const CollectionRouter = Router();
 
 CollectionRouter.post(
   "/collection/create",
-  authMiddlewareCompany,
-  nftUpload.single("productImage"),
+  // authMiddlewareCompany,
   createCollection
 );
 CollectionRouter.get("/collection", getAllCollection);

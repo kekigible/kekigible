@@ -19,7 +19,7 @@ interface products {
   owner: string;
   productId: string;
   description: string;
-  collectionId: String;
+  collectionId: string;
   productName: string;
   category: string;
   warrantyAvail: boolean;
@@ -37,14 +37,14 @@ interface products {
 }
 
 interface collections {
-  name: String;
-  collectionId: String;
-  author?: String;
-  description: String;
+  name: string;
+  collectionId: string;
+  author?: string;
+  description: string;
   createdAt: string;
   modifiedAt?: string;
-  nftImageUrl: String;
-  nftLoyaltyImageUrl?: String;
+  nftImageUrl: string;
+  nftLoyaltyImageUrl?: string;
   nftSoulBound: boolean;
   nftPurchasable?: number;
   loyaltyCoinAlloted?: number;
@@ -77,11 +77,11 @@ interface Props {
 }
 
 interface appState {
-  accessToken: String;
+  accessToken: string;
 }
 
 interface auth {
   password: string;
   email: string;
-  entity: String;
+  entity: string;
 }

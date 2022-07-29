@@ -41,10 +41,9 @@ const Dashboard = () =>{
         </header>
         <main className={styles.main}>
             <section className={styles.topSection}>
-                <form action="#" className={styles.form}>
-                    <Input id="claimProduct" type="text" label="Product Id"></Input>
-                    <input type="submit" value="Claim" />
-                </form>
+                <Link href="/market">
+                    <p className={styles.btn}>Market</p>  
+                </Link>
             <form action="#" className={styles.form}>
                 <Input id='search' type="text" label="Search for a product"></Input>
                 <input type="submit" value="Go" />

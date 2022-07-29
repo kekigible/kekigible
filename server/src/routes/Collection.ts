@@ -9,7 +9,11 @@ import { nftUpload } from "../middleware/Upload";
 
 const CollectionRouter = Router();
 
-CollectionRouter.post("/collection/create", nftUpload.single("image"), createCollection);
+CollectionRouter.post(
+  "/collection/create",
+  nftUpload.single("productImage"),
+  createCollection
+);
 CollectionRouter.get("/collection", getAllCollection);
 // CollectionRouter.post("/collection/upload/nft", nftUpload.single("image"), uploadNftImage);
 // CollectionRouter.post(

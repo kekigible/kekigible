@@ -3,6 +3,8 @@ import Collection from "../models/Collection";
 
 const createCollection = async (req: Request, res: Response) => {
   try {
+    console.log(req.body, req.file);
+
     const newCollection = Collection.create({ ...req.body, nftImageUrl: req.file.buffer });
     res.status(200).json({ statue: "Created Collection", data: newCollection });
   } catch (error) {

@@ -3,6 +3,7 @@ interface formInputProp {
   label: string;
   id: string;
   required?: boolean;
+  name?: string;
 }
 
 interface nftProp {

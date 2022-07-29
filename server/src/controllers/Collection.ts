@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import Collection from "../models/Collection";
+import { reqCompany } from "../types";
 
-const createCollection = async (req: Request, res: Response) => {
+const createCollection = async (req: reqCompany, res: Response) => {
   try {
-    console.log(req.body, req.file);
+    console.log(req.body, req.file, req.user);
 
     const newCollection = Collection.create({ ...req.body, nftImageUrl: req.file.buffer });
     res.status(200).json({ statue: "Created Collection", data: newCollection });

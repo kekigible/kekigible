@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { genUUID } from "../utils/Utils";
 
 var validateEmail = function (email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -28,6 +29,13 @@ const CompanySchema = new mongoose.Schema({
   },
 
   phoneNumber: Number,
+
+  companyId: {
+    type: String,
+    default: genUUID(),
+    unique: true,
+  },
 });
 
+export { CompanySchema };
 export default mongoose.model("Company", CompanySchema);

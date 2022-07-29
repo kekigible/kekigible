@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { auth, ContextAppType, Props } from "../data";
 import { getCookie } from "../utils/utils";
 
 const AppContextDefaultValues: ContextAppType = {
@@ -36,8 +37,10 @@ const AppProvider = ({ children }: Props) => {
           headers: { authorization: `Bearer ${appGlobalState.accessToken}` },
         }
       );
-      setAccessToken(response.data.token);
       console.log(response);
+      setAccessToken(response.data.token);
+      localStorage.setItem("access-token", response.data.token);
+      console.log(response, appGlobalState.accessToken);
     } catch (error) {
       console.log(error);
     }
@@ -67,14 +70,11 @@ const AppProvider = ({ children }: Props) => {
     }
   };
 
-  // useEffect(() => {
-  //   // refreshToken().then((data) => console.log(data));
-  //   axios
-  //     .get("http://localhost:8000/refreshToken", {
-  //       withCredentials: true,
-  //     })
-  //     .then((data) => console.log(data));
-  // }, []);
+  useEffect(() => {
+    // refreshToken().then((data) => console.log(data));
+    const token = localStorage.getItem("access-token");
+    if (token) setAccessToken(token);
+  }, []);
 
   return (
     <>

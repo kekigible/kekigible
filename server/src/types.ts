@@ -1,3 +1,7 @@
+import User from "./models/User";
+import Company from "./models/Company";
+import Admin from "./models/Admin";
+
 export interface PayloadType {
   id: string;
   iat: number;
@@ -22,4 +26,9 @@ export interface ProductType {
   warrantyAvail: Number;
   resoldVoid: Boolean;
   ownedBy: User;
+}
+
+import { Request } from "express";
+export interface reqCompany extends Request {
+  user: typeof User | typeof Company | typeof Admin; // or any other type
 }

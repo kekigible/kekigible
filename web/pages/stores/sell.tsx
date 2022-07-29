@@ -4,6 +4,15 @@ import Link from "next/link";
 import Input from "../../components/input/input";
 import styles from "../../styles/addProduct.module.scss"
 const Sell = () =>{
+const handleSubmit = (e:any) => {
+
+    const productId = e.value.productIds.value;
+    const formBody={
+        units: e.target.units.value,
+        userId: e.target.userId.value,
+        productIds:productId.split(" "),
+    }
+}
     return(
         <div>
             <Head>
@@ -17,7 +26,8 @@ const Sell = () =>{
             </div>
         </header>
         <main className={styles.main}>
-            <form action="#">
+            <form action="#"
+            onSubmit={handleSubmit}>
                 <div className={styles.fb45}>
                     <Input id="units" type="number" label="Units"></Input>
                 </div>

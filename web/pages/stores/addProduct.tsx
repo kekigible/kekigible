@@ -12,6 +12,16 @@ const AddProduct = () => {
   const { accessToken } = useAppContext();
   const [isWarranty, setIsWarranty] = useState(false);
 
+  const timePeriodtoSec=(n:number,s:string )=>{
+    if(s==="year")  return 31556952 * n;
+    else if(s==="months") return 2629746*n;
+    else if(s==="weeks")  return 604800*n;
+    else if(s==="days") return 86400*n;
+  }
+
+  const secondstoTimePeriod=()=>{
+
+  }
   const handleSubmit = async (e: any) => {
     console.log(e.target.productImage);
     // const bodyFormData = new FormData();
@@ -19,13 +29,8 @@ const AddProduct = () => {
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
-<<<<<<< HEAD
       description:e.target.description.value,
       nftImageUrl: e.target.nftImageUrl.value,
-=======
-      description: e.target.description.value,
-      productImage: e.target.productImage.value,
->>>>>>> ec2af97de391b500ae695588bd5df330bb17614b
       productUrl: e.target.productUrl.value,
       numberOfProducts: e.target.numberOfProducts.value,
       loyaltCoin: e.target.loyaltCoin.value,
@@ -36,7 +41,6 @@ const AddProduct = () => {
       timePeriod: e.target.timePeriod.value,
       resoldVoilation: e.target.resoldVoilation.value,
       loyaltyCoinAlloted: e.target.loyaltyCoinAlloted.value,
-      productCategory: e.target.productCategory.value,
       // phonenumber: e.target.phonenumber.value,
     };
 

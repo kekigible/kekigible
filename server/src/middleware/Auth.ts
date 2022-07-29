@@ -39,7 +39,7 @@ export const authMiddlewareCompany = async (req, res, next) => {
 
   const authHeader = req.headers.authorization;
 
-  //   console.log(authHeader);
+  console.log(authHeader);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new Unauthorized("No Authorization Header");
@@ -57,7 +57,7 @@ export const authMiddlewareCompany = async (req, res, next) => {
 
     return next();
   } catch (err) {
-    console.log(err);
+    console.log("error in middleware", err);
     res.status(500).json({ status: "failure", message: err });
   }
 };

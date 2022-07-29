@@ -30,8 +30,9 @@ const ProductSchema = new mongoose.Schema({
   brand: String,
 
   ownedBy: {
-    type: UserSchema,
+    type: String,
     nullable: true,
+    default: null,
   },
 
   decayingTime: {

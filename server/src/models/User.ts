@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { genUUID } from "../utils/Utils";
 
 var validateEmail = function (email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -36,6 +37,12 @@ const UserSchema = new mongoose.Schema({
 
   phonenumber: {
     type: Number,
+  },
+
+  userId: {
+    type: String,
+    default: genUUID(),
+    unique: true,
   },
 });
 

@@ -5,7 +5,6 @@ import Link from "next/link";
 import styles from "../../styles/addProduct.module.scss";
 import Input from "../../components/input/input";
 import axios from "axios";
-import FormData from "form-data";
 import { useAppContext } from "../../context/context";
 
 const AddProduct = () => {
@@ -17,14 +16,15 @@ const AddProduct = () => {
     else if(timePeriodUnit==="months") return 2629746*timePeriod;
     else if(timePeriodUnit==="weeks")  return 604800*timePeriod;
     else if(timePeriodUnit==="days") return 86400*timePeriod;
+    else return -1;
   }
 
   const secondstoTimePeriod=(n:number)=>{
-    if(n%31556952)  return n/31556952;
-    else if(n%2629746)  return n/2629746;
-    else if(n%604800) return n/604800;
-    else if(n%86400)  return n/86400;
-
+    if(n%31556952)  return `${n/31556952} Years`;
+    else if(n%2629746)  return `${n/2629746} Months`;
+    else if(n%604800) return `${n/604800} Weeks`;
+    else if(n%86400)  return `${n/86400} Days`;
+    else return "";
   }
   const handleSubmit = async (e: any) => {
     console.log(e.target.productImage);
@@ -42,7 +42,7 @@ const AddProduct = () => {
       productCategory: e.target.productCategory.value,
       isWarrentied: e.target.isWarrentied.value,
       warrantyType: e.target.warrantyType.value,
-      timePeriod: e.target.timePeriod.value,
+      timePeriod: timePeriodtoSec(e.target.timePeriod.value,e.target.timePeriodUnit.value),
       resoldVoilation: e.target.resoldVoilation.value,
       loyaltyCoinAlloted: e.target.loyaltyCoinAlloted.value,
       // phonenumber: e.target.phonenumber.value,

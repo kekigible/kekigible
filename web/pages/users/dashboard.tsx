@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import Nft from "../../components/ntf/nft";
+import noData from "../../public/images/2953962.jpg";
 import Input from "../../components/input/input";
 import Navbar from "../../components/navbar/navbar";
 import styles from "../../styles/Dashboard.module.scss";
@@ -31,7 +31,7 @@ const product: products = {
 
 const Dashboard = () => {
   const { accessToken } = useAppContext();
-  const [ownedProducts, setOwnedProducts] = useState<products[]>([product]);
+  const [ownedProducts, setOwnedProducts] = useState<products[]>([]);
 
   const getProducts = async () => {
     // console.log(accessToken);
@@ -76,28 +76,33 @@ const Dashboard = () => {
         </section>
         <section className={styles.product}>
           <div className={styles.nftSection}>
-            {ownedProducts.map((product) => {
-              return (
-                <Link
-                  href={{
-                    pathname: "/users/productDetail",
-                    query: { productId: product.productId },
-                  }}
-                  key={product.productId}
-                  className={styles.nftContainer}
-                >
-                  <div className={styles.nft}>
-                    <img
-                      src={product.nftImageUrl}
-                      alt={product.productName}
-                      width={200}
-                      height={200}
-                    ></img>
-                    <p>{product.productName}</p>
-                  </div>
-                </Link>
-              );
-            })}
+            {ownedProducts.length > 0 ? (
+              ownedProducts.map((product) => {
+                return (
+                  <Link
+                    href={{
+                      pathname: "/users/productDetail",
+                      query: { productId: product.productId },
+                    }}
+                    key={product.productId}
+                    className={styles.nftContainer}
+                  >
+                    <div className={styles.nft}>
+                      <img
+                        src={product.nftImageUrl}
+                        alt={product.productName}
+                        width={200}
+                        height={200}
+                      ></img>
+                      <p className={styles.title}>{product.productName}</p>
+                      <p>{product.description}</p>
+                    </div>
+                  </Link>
+                );
+              })
+            ) : (
+              <Image src={noData} alt="no Data" height={1800}></Image>
+            )}
           </div>
         </section>
       </main>

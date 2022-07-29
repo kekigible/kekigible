@@ -37,10 +37,11 @@
                 font-family: 'Source Sans Pro', sans-serif;
                 text-align: center;
                 padding: 1rem;
-                height: 250px;
+                height: fit-content;
                 box-shadow: 0 0 3px 3px rgba(50,50,50,0.3);
                 cursor: pointer;
-                p{
+                .title{
+                    font-weight: 600;
                     padding: .5rem;
                 }
             }

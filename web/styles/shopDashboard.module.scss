@@ -1,23 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap');
 .main{
     padding: 1rem;
     .top{
         display: flex;
         justify-content: space-between;
-        
     }
     .product{
 
-        
-
-        .productTable{
+        .tableContainer{
+            max-height: 50vh;
+            border: 2px solid black;
+            overflow: auto;
+            box-shadow: 0 0 5px 5px rgba($color: #000000, $alpha: .07);
             margin-top: 2rem;
-            width: 100%;
-            thead{
-                border: 2px solid black;
-                th{
-                    padding: 1rem;
+            table{
+                width: 100%;
+                thead{
+                    th{
+                        outline: 1px solid black;
+                        background-color: #fff;
+                        padding: 1rem;
                     font-weight: 700;
                     font-size: 1.2rem;
+                    position: sticky;
+	                top: -1px;
                 }
             }
             tbody{
@@ -28,10 +34,34 @@
                         border-right: 1px solid black;
                         font-weight: 500;
                         padding: .5rem;
+                        font-family: 'Source Sans Pro', sans-serif;
                     }
                 }
             }
+            }
         }
+    }
+    .tickets{
+        margin-top: 2rem;
+        padding: 2rem;
+        box-shadow: 0 0 5px 5px rgba($color: #000000, $alpha: .07);
+        .tabContainer{
+            background-color: #fff;
+            h2{
+                padding: 1rem;
+                font-family: 'Source Sans Pro', sans-serif;
+                font-size: 2rem;
+                font-weight: 800;
+            }
+        }
+        p{
+            padding: 4rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: monospace;
+            color: #656565;
+        }
+
     }
 }
 
@@ -40,6 +70,8 @@
     background-color: #aa0000;
     color: #fff;
     padding: 1rem;
+    border: none;
+    margin: 0 1rem;
     border-radius: 1rem;
     width: fit-content;
     &:hover{

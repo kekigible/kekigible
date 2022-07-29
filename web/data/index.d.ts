@@ -37,7 +37,7 @@ interface products {
 }
 
 interface collections {
-  name: string;
+  productName: string;
   collectionId: string;
   author?: string;
   description: string;
@@ -53,6 +53,8 @@ interface collections {
   warrantyType: string;
   warrantyPeriod?: string;
   productUrl: url | string;
+  numberOfProducts: Number;
+  soldProduct: Number;
 }
 
 interface ticket {

@@ -4,6 +4,8 @@ import { reqCompany } from "../types";
 import { PayloadType } from "../types";
 import Company from "../models/Company";
 import { verify } from "jsonwebtoken";
+import Product from "../models/Product";
+import { genUUID } from "../utils/Utils";
 
 const createCollection = async (req: reqCompany, res: Response) => {
   try {
@@ -21,10 +23,18 @@ const createCollection = async (req: reqCompany, res: Response) => {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded.");
     }
+
+    let productArray = [];
+    const collectionID = genUUID();
+    for (let i = 1; i <= req.body.numberOfProducts; i++) {
+      const newProduct = Product.create({ productId: i, collectionId: collectionID });
+      productArray = [...productArray, newProduct];
+    }
     // const newCollection = await Collection.create({ ...req.body, nftImageUrl: req.files[0].buffer });
     const newCollection = await Collection.create({
       productName: req.body.productName as string,
       companyId: req.user.companyId as string,
+      collectionId: collectionID,
       author: "me",
       description: req.body.description,
       decayingTime: 12222,
@@ -41,7 +51,16 @@ const createCollection = async (req: reqCompany, res: Response) => {
 
 const getAllCollection = async (req: Request, res: Response) => {
   try {
-    const collections = Collection.find({});
+    const collections = await Collection.find({});
+    res.status(200).json({ status: "success", data: collections });
+  } catch (error) {
+    res.status(500).json({ status: "Failed to get collection list", message: error });
+  }
+};
+
+const getCollection = async (req: Request, res: Response) => {
+  try {
+    const collections = await Collection.findOne({ collectionId: req.params.id });
     res.status(200).json({ status: "success", data: collections });
   } catch (error) {
     res.status(500).json({ status: "Failed to get collection list", message: error });
@@ -82,4 +101,10 @@ const uploadGamifiedNftImage = async (req: Request, res: Response) => {
   }
 };
 
-export { createCollection, getAllCollection, uploadNftImage, uploadGamifiedNftImage };
+export {
+  createCollection,
+  getAllCollection,
+  uploadNftImage,
+  uploadGamifiedNftImage,
+  getCollection,
+};

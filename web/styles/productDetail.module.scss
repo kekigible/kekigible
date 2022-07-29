@@ -85,15 +85,26 @@
 .btn{
     margin-bottom: 1rem;
     width: fit-content;
-    padding: 1rem;
+    padding: 1rem 2rem;
     margin-left: 1rem;
     color: #fff;
-    background-color: #bb0000;
+    background-color: green;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
     &:hover{
         background-color: #ff0000 ;
         box-shadow: 0 0 3px 3px  rgba(128,128,128,0.3);
+    }
+}
+
+.sellIndex {
+    display: flex;
+    gap : 2rem;
+    margin:2rem 0;
+
+    input{
+        padding: 8px;
+        max-width: 30%;
     }
 }

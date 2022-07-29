@@ -49,6 +49,12 @@ const ProductSchema = new mongoose.Schema({
     default: false,
   },
 
+  collectionId: {
+    type: String,
+    default: genUUID(),
+    unique: true,
+  },
+
   //according to front-end
 
   productDate: {

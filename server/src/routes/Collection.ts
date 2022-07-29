@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createCollection,
   getAllCollection,
+  getCollection,
   uploadGamifiedNftImage,
   uploadNftImage,
 } from "../controllers/Collection";
@@ -16,6 +17,7 @@ CollectionRouter.post(
   createCollection
 );
 CollectionRouter.get("/collection", getAllCollection);
+CollectionRouter.get("/collection/:id", getCollection);
 // CollectionRouter.post("/collection/upload/nft", nftUpload.single("image"), uploadNftImage);
 // CollectionRouter.post(
 //   "/collection/upload/gamifiednft",

@@ -65,6 +65,8 @@ const collectionSchema = new mongoose.Schema({
 
   numberOfProducts: Number,
 
+  soldProduct: { type: Number, default: 0 },
+
   nftImageUrl: String,
 
   nftSoulBound: { type: Boolean, default: false },

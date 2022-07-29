@@ -55,4 +55,19 @@ const getProducts = async (req: reqUser, res: Response) => {
   }
 };
 
-export { extendWarranty, createProduct, getProducts };
+const buyProducts = async (req: reqUser, res: Response) => {
+  try {
+    console.log(req.user);
+
+    const response = await Product.find({
+      ownedBy: null,
+      collectionId: req.body.collectionId,
+    });
+    console.log(response);
+    res.status(200).json({ status: "success", data: response });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error });
+  }
+};
+
+export { extendWarranty, createProduct, getProducts, buyProducts };

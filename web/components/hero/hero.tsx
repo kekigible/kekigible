@@ -16,13 +16,21 @@ const Hero = () => {
                 <Link  href='./users/login'>
                     <p>Dashbord</p>
                 </Link>
-                <Link  href='./stores/shopDashboard'>
+                <Link  href='./stores/login'>
                     <p>Dashbord for Shops</p>
                 </Link>
             </section>
             </section>
             <section className={styles.rightSection}>
-                <Nft></Nft>
+                <Nft 
+                productName="Product Name"
+                warrantyType="Standard"
+                purchaseDate="DD/MM/YYYY"
+                productId="###############"
+                sold={true}
+                warrantyAvial={false}
+                category="---"
+                />
             </section>
         </div>
     )

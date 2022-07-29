@@ -23,14 +23,24 @@ const AddProduct = () =>{
                 <div className={styles.fb100}>
                 <Input id="productName" label="Product Name" type="text"></Input>
                 </div>
+                <div className={styles.fb100}>
+                <Input id="description" label="Product Description" type="text"></Input>
+                </div>
                 <div className={styles.fb45}>
                 <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
                 </div>
                 <div className={styles.fb45}>
-                <Input id="productImage" label="Product Image" type="file"></Input>
+                <Input id="nftImageurl" label="Nft Image Url" type="string"></Input>
                 </div>
                 <div className={styles.fb100}>
                 <Input id="producturl" label="Product Url" type="url"></Input>
+                </div>
+                <div><p>*Loyalty coins are awarderd to the person who purchased min amount of products</p></div>
+                <div className={styles.fb45}>
+                <Input id="loyaltCoin" label="Loyalty Coin" type="number"></Input>
+                </div>
+                <div className={styles.fb45}>
+                <Input id="minPurchase" label="min Amount" type="number"></Input>
                 </div>
                 <div className={styles.fb100}>
                 <label htmlFor="productCategory" className={styles.fslabel}>Product Category: </label>

@@ -14,19 +14,19 @@ const Navbar = () =>{
                     </li>
                     <li className={styles.link}>
                         <Link href="/stores/signup">
-                            <a>Signup Stores</a>
+                            <a>Become a Seller</a>
                         </Link>
                     </li>
-                    <li className={styles.link}>
+                    {/* <li className={styles.link}>
                         <Link href="/users/signup">
                             <a>Signup</a>
                         </Link>
-                    </li>
-                    <li className={styles.link}>
+                    </li> */}
+                    {/* <li className={styles.link}>
                         <Link href="/users/dashboard">
                             <a>Dashboard</a>
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </div>

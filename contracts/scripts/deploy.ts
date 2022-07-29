@@ -1,18 +1,7 @@
 import { ethers } from "hardhat";
+require("dotenv").config()
 
 async function main() {
-  // const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  // const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  // const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
-
-  // const lockedAmount = ethers.utils.parseEther("1");
-
-  // const Lock = await ethers.getContractFactory("Lock");
-  // const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  // await lock.deployed();
-
-  // console.log("Lock with 1 ETH deployed to:", lock.address);
 
   const KioskContract = await ethers.getContractFactory("KioskERC1155");
   const kiosk = await KioskContract.deploy(
@@ -23,7 +12,8 @@ async function main() {
     25,     //price
     5,      //times
     true,   //decay
-    25000   //timedelta
+    25000,   //timedelta
+    process.env.TRUSTED_FORWARDER as string
   );
   await kiosk.deployed();
   console.log("FactoryContract should be deployed at", kiosk.address)

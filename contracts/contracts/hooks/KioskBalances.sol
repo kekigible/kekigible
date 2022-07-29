@@ -2,6 +2,8 @@
 pragma solidity ^0.8.9;
 
 import "../mixins/KekAccessControl.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
 
 /**
  * @dev This contract is an independent contract that will be used to keep track
@@ -12,7 +14,7 @@ import "../mixins/KekAccessControl.sol";
  */
 
  // Needs reentrancy
-contract KioskBalances is KekAccessControl {
+contract KioskBalances is KekAccessControl, ReentrancyGuard {
     /**
      * @dev this mapping would store kiosk -> buyer -> token IDs he owns
      */
@@ -22,7 +24,7 @@ contract KioskBalances is KekAccessControl {
     event ERC1155RecordUpdated(address indexed kiosk, address indexed buyer, uint256 indexed tokenID);
     event ShopRecord(address indexed kiosk);
 
-    function addERC1155Record(address kiosk, address buyer, uint256 tokenID) onlyAdmin public {
+    function addERC1155Record(address kiosk, address buyer, uint256 tokenID) onlyAdmin nonReentrant public {
         ERC1155Records[kiosk][buyer].push(tokenID);
         emit ERC1155RecordUpdated(kiosk, buyer, tokenID);
     }

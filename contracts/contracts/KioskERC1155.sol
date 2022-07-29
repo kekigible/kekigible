@@ -4,6 +4,8 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
 import "./mixins/KioskWarranty.sol";
 import "./mixins/KioskForceBalance.sol";
 
@@ -12,7 +14,7 @@ import "./mixins/KioskForceBalance.sol";
  * kiosk is essentially a minting contract, hence either erc721 or
  * erc1155. With additional facilities for managing warranty
  */
-contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
+contract KioskERC1155 is ERC2771Context, ERC1155, KioskWarranty, KioskForceBalance, ReentrancyGuard {
 
     using ECDSA for bytes32;
     // Number of NFTs minted
@@ -24,7 +26,8 @@ contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
     // address public immutable FactoryAddress;
     uint256 public supply;
 
-    constructor(bool _soulbound, bool _voidWhenSold, uint256 _supply, uint256 _BuyBlock, uint256 _price, int _times, bool _decay, uint _timedelta)
+    constructor(bool _soulbound, bool _voidWhenSold, uint256 _supply, uint256 _BuyBlock, uint256 _price, int _times, bool _decay, uint _timedelta, address _trustedForwarder)
+        ERC2771Context(_trustedForwarder)
         ERC1155("localhost:8000/product/{id}.json")
         KioskWarranty(_soulbound, _voidWhenSold, _times, _decay, _timedelta)
         KioskForceBalance(_BuyBlock) {
@@ -33,7 +36,15 @@ contract KioskERC1155 is ERC1155, KioskWarranty, KioskForceBalance {
         price = _price;
     }
 
-    function mint() canBuy(_msgSender()) onlyNonBanned payable public {
+    function _msgSender() internal view virtual override(ERC2771Context, Context) returns (address) {
+        return ERC2771Context._msgSender();
+    }
+
+    function _msgData() internal view virtual override(ERC2771Context, Context) returns (bytes calldata) {
+        return ERC2771Context._msgData();
+    }
+
+    function mint() canBuy(_msgSender()) onlyNonBanned nonReentrant payable public {
         require(_tokenIDs.current() < supply, "All sold out");
         require(msg.value >= price, "Not enough to buy");
         _tokenIDs.increment();

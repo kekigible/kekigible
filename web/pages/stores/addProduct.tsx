@@ -12,14 +12,18 @@ const AddProduct = () => {
   const { accessToken } = useAppContext();
   const [isWarranty, setIsWarranty] = useState(false);
 
-  const timePeriodtoSec=(n:number,s:string )=>{
-    if(s==="year")  return 31556952 * n;
-    else if(s==="months") return 2629746*n;
-    else if(s==="weeks")  return 604800*n;
-    else if(s==="days") return 86400*n;
+  const timePeriodtoSec=(timePeriod:number,timePeriodUnit:string )=>{
+    if(timePeriodUnit==="year")  return 31556952 * timePeriod;
+    else if(timePeriodUnit==="months") return 2629746*timePeriod;
+    else if(timePeriodUnit==="weeks")  return 604800*timePeriod;
+    else if(timePeriodUnit==="days") return 86400*timePeriod;
   }
 
-  const secondstoTimePeriod=()=>{
+  const secondstoTimePeriod=(n:number)=>{
+    if(n%31556952)  return n/31556952;
+    else if(n%2629746)  return n/2629746;
+    else if(n%604800) return n/604800;
+    else if(n%86400)  return n/86400;
 
   }
   const handleSubmit = async (e: any) => {

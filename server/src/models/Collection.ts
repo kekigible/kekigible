@@ -3,7 +3,7 @@ import { genUUID } from "../utils/Utils";
 import Product, { ProductSchema } from "./Product";
 
 const collectionSchema = new mongoose.Schema({
-  name: {
+  productName: {
     type: String,
     min: [5, "Minimum 5 letter word"],
     max: [10, "Maximum 20 letter word"],
@@ -73,6 +73,8 @@ const collectionSchema = new mongoose.Schema({
   nftPurchasable: { type: Number, default: 10 },
 
   loyaltyCoinAlloted: { type: Number, default: 10, min: 1 },
+
+  resoldVoilation: { type: Boolean, default: false },
 });
 
 export default mongoose.model("Collection", collectionSchema);

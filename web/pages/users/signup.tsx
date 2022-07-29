@@ -34,6 +34,8 @@ const Signup = () => {
     } catch (error) {
       console.log(error);
     }
+
+    window.location.href = "/users/dashboard";
   };
 
   console.log(accessToken);

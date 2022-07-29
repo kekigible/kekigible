@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useState } from "react"
 
 import Navbar from "../../components/navbar/navbar"
-import { collections } from "../../data"
+import { collections, ticket } from "../../data"
 import styles from "../../styles/shopDashboard.module.scss"
 
 let collection:collections={
@@ -22,6 +22,19 @@ let collection:collections={
 }
 const ShopDashboard = () =>{
     const [listedCollection,setlistedCollection] = useState<collections[]>([collection]);
+    const [listTickets,setListTickets]  = useState<ticket[]>([]);
+
+ const filterTickets = (status:string) =>{
+    const list = listTickets.filter((ticket)=>{ticket.status != status});
+    setListTickets(list);
+ }
+
+ const approvePendingReq = () =>{
+
+ }
+ const modify = () =>{
+
+ }
     return(
         <div className={styles.container}>
         <Head>
@@ -40,7 +53,8 @@ const ShopDashboard = () =>{
             <section    className={styles.product}>
                 
                 {(listedCollection.length >0) && 
-                <table className={styles.productTable}>
+                <div className={styles.tableContainer}>
+                <table>
                     <thead>
                         <tr>
                             <th>Collection Name</th>
@@ -67,9 +81,44 @@ const ShopDashboard = () =>{
                             </tr>
                         })}
                     </tbody>
-                </table>  }
+                </table>  
+                </div>
+                }
             </section>
-
+            <section className={styles.tickets}>
+                <div className={styles.tabContainer}>
+                    <h2>Tickets</h2>
+                    <button className={styles.addProdbtn} onClick={()=>filterTickets("pending")}>Pending</button>
+                    <button className={styles.addProdbtn} onClick={()=>filterTickets("onGoing")}>On Going</button>
+                    <button className={styles.addProdbtn} onClick={()=>filterTickets("closed")}>Closed</button>
+                </div>
+                    {listTickets.length>0 ?
+                <div className={styles.tableContainer}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ticket Id</th>
+                                <th>Ticket Title</th>
+                                <th>Creates At</th>
+                                <th>Ticket Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listTickets.map((ticket)=>{
+                                return <tr key={ticket.ticketIdentifier}>
+                                    <td>{ticket.ticketIdentifier}</td>
+                                    <td>{ticket.ticketTitle}</td>
+                                    <td>{ticket.createdAt}</td>
+                                    <td>{ticket.ticketDescription}</td>
+                                    <td>{ticket.status==="pending" ? <button className={styles.addProdbtn} onClick={approvePendingReq}>Approve</button>:ticket.status==="onGoing"?<button className={styles.addProdbtn} onClick={modify}>Modify</button> :"Closed"} </td>
+                                </tr>
+                            })}
+                        </tbody>
+                    </table>
+                </div>: <p>No Tickets found :(</p>
+                }
+            </section>
         </main>
         </div>
     )

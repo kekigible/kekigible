@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Product from "../models/Product";
-import { ProductType } from "../types";
+import { ProductType, reqUser } from "../types";
 
 const extendWarranty = async (req: Request, res: Response) => {
   try {
@@ -43,4 +43,16 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-export { extendWarranty, createProduct };
+const getProducts = async (req: reqUser, res: Response) => {
+  try {
+    console.log(req.user);
+
+    const response = await Product.find({ ownedBy: req.user.userId });
+    console.log(response);
+    res.status(200).json({ status: "success", data: response });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error });
+  }
+};
+
+export { extendWarranty, createProduct, getProducts };

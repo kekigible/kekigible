@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from "next/image";
 
+import noData from "../../public/images/2953962.jpg"
 import Input from '../../components/input/input';
 import { collections } from '../../data';
 import styles from '../../styles/Dashboard.module.scss';
@@ -30,7 +32,7 @@ const [marketcollections, setMarketcollections] = useState<collections[]>([])
             <section className={styles.product}>
                 <div className={styles.nftSection}>
 
-                    {marketcollections.map((collection) =>{
+                    {marketcollections.length>0 ? marketcollections.map((collection) =>{
                         return(
                             <Link href={{pathname:'/market/marketProductDetail',query:{collectionId:collection.collectionId}}} key={collection.collectionId} className={styles.nftContainer}>
                            <div className={styles.nft}>
@@ -44,7 +46,9 @@ const [marketcollections, setMarketcollections] = useState<collections[]>([])
                             </div>
                        </Link>
                        ) 
-                    })}
+                    }):
+            <Image src={noData} alt="no Data" height={1800} ></Image>
+        }
                 </div>
             </section>
         </main>

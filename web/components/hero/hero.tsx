@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 
-import Nft from "../ntf/nft";
+import heroillust from "../../public/images/5322743.jpg"
+// import Nft from "../ntf/nft";
 import styles from "./hero.module.scss"
 
 const Hero = () => {
@@ -22,15 +24,12 @@ const Hero = () => {
             </section>
             </section>
             <section className={styles.rightSection}>
-                <Nft 
-                productName="Product Name"
-                warrantyType="Standard"
-                purchaseDate="DD/MM/YYYY"
-                productId="###############"
-                sold={true}
-                warrantyAvial={false}
-                category="---"
-                />
+                <Image
+                src={heroillust}
+                alt="Hero Illustration"
+                width={550}
+                height={550}
+                ></Image>
             </section>
         </div>
     )

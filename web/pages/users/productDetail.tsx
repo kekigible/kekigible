@@ -23,7 +23,7 @@ const prodt:products={
 
 import styles from "../../styles/productDetail.module.scss"
 const ProductDetail = () =>{
-    const   [product,setProduct]= useState<products>(prodt);
+    const   [product,setProduct]= useState<products>();
     const   [tickets, setTickets]=useState<ticket[]>([]);
     const productId = new URLSearchParams(window.location.search).get('productId');
     //search for product id

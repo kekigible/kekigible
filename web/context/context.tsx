@@ -36,6 +36,7 @@ const AppProvider = ({ children }: Props) => {
           headers: { authorization: `Bearer ${appGlobalState.accessToken}` },
         }
       );
+      setAccessToken(response.data.token);
       console.log(response);
     } catch (error) {
       console.log(error);

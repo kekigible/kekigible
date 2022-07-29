@@ -6,13 +6,16 @@ import styles from "../../styles/addProduct.module.scss";
 import Input from "../../components/input/input";
 import axios from "axios";
 import FormData from "form-data";
+import { useAppContext } from "../../context/context";
+
 const AddProduct = () => {
+  const { accessToken } = useAppContext();
   const [isWarranty, setIsWarranty] = useState(false);
 
   const handleSubmit = async (e: any) => {
     console.log(e.target.productImage);
-    const bodyFormData = new FormData();
-    bodyFormData.append("productImage", e.target.productImage.value);
+    // const bodyFormData = new FormData();
+    // bodyFormData.append("productImage", e.target.productImage.value);
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
@@ -25,19 +28,18 @@ const AddProduct = () => {
       // phonenumber: e.target.phonenumber.value,
     };
 
-    console.log(formBody);
+    console.log(formBody, accessToken);
 
     try {
-      const respose = await axios.post(
-        "http://localhost:8000/collection/create",
-        bodyFormData,
-        {
-          //   withCredentials: true,
-          //   headers: { "Content-Type": `multipart/form-data` },
-          headers: bodyFormData.getHeaders(),
-          // credentials: "include",
-        }
-      );
+      const respose = await axios.post("http://localhost:8000/collection/create", formBody, {
+        //   withCredentials: true,
+        headers: {
+          "Content-Type": `multipart/form-data`,
+          authorization: `Bearer ${accessToken}`,
+        },
+        // headers: bodyFormData.getHeaders(),
+        // credentials: "include",
+      });
       console.log(respose.data);
     } catch (error) {
       console.log(error);

@@ -13,6 +13,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
  */
 contract KekToken is KekAccessControl, ERC20Pausable {
 
+
     constructor() ERC20("KekToken", "KEK") {
     }
 

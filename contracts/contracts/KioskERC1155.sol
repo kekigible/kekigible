@@ -3,7 +3,6 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
 import "./mixins/KioskWarranty.sol";
@@ -16,7 +15,6 @@ import "./mixins/KioskForceBalance.sol";
  */
 contract KioskERC1155 is ERC2771Context, ERC1155, KioskWarranty, KioskForceBalance, ReentrancyGuard {
 
-    using ECDSA for bytes32;
     // Number of NFTs minted
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIDs;
@@ -56,10 +54,6 @@ contract KioskERC1155 is ERC2771Context, ERC1155, KioskWarranty, KioskForceBalan
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
-    }
-
-    function humanFirst(bytes32 hash, bytes memory signature) public view returns(bool) {
-        return hash.recover(signature) == _msgSender();
     }
 
     

@@ -6,6 +6,8 @@ import { ErrorMiddleWare, NoRouteMiddleWare } from "./middleware/Error";
 import AuthRouter from "./routes/Auth";
 import CollectionRouter from "./routes/Collection";
 import ProductRouter from "./routes/Product";
+const fileUpload = require('express-fileupload');
+
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -20,7 +22,7 @@ const corsOption = {
 
 app.use(express.json());
 app.use(cors(corsOption));
-
+app.use(fileUpload());
 app.use("/", AuthRouter);
 app.use("/", CollectionRouter);
 app.use("/", ProductRouter);

@@ -7,7 +7,7 @@ const collectionSchema = new mongoose.Schema({
     type: String,
     min: [5, "Minimum 5 letter word"],
     max: [10, "Maximum 20 letter word"],
-    required: [true, "COllection Name is required"],
+    required: [true, "Collection Name is required"],
     trim: true,
   },
 
@@ -59,14 +59,13 @@ const collectionSchema = new mongoose.Schema({
     type: String,
     enum: {
       values: ["Standard", "Extended", "Lifetime", "others"],
+      default: "Standard",
     },
   },
 
   numberOfProducts: Number,
 
   nftImageUrl: String,
-
-  nftLoyaltyImageUrl: String,
 
   nftSoulBound: { type: Boolean, default: false },
 

@@ -11,21 +11,21 @@ const AddProduct = () => {
   const { accessToken } = useAppContext();
   const [isWarranty, setIsWarranty] = useState(false);
 
-  const timePeriodtoSec=(timePeriod:number,timePeriodUnit:string )=>{
-    if(timePeriodUnit==="year")  return 31556952 * timePeriod;
-    else if(timePeriodUnit==="months") return 2629746*timePeriod;
-    else if(timePeriodUnit==="weeks")  return 604800*timePeriod;
-    else if(timePeriodUnit==="days") return 86400*timePeriod;
+  const timePeriodtoSec = (timePeriod: number, timePeriodUnit: string) => {
+    if (timePeriodUnit === "year") return 31556952 * timePeriod;
+    else if (timePeriodUnit === "months") return 2629746 * timePeriod;
+    else if (timePeriodUnit === "weeks") return 604800 * timePeriod;
+    else if (timePeriodUnit === "days") return 86400 * timePeriod;
     else return -1;
-  }
+  };
 
-  const secondstoTimePeriod=(n:number)=>{
-    if(n%31556952)  return `${n/31556952} Years`;
-    else if(n%2629746)  return `${n/2629746} Months`;
-    else if(n%604800) return `${n/604800} Weeks`;
-    else if(n%86400)  return `${n/86400} Days`;
+  const secondstoTimePeriod = (n: number) => {
+    if (n % 31556952) return `${n / 31556952} Years`;
+    else if (n % 2629746) return `${n / 2629746} Months`;
+    else if (n % 604800) return `${n / 604800} Weeks`;
+    else if (n % 86400) return `${n / 86400} Days`;
     else return "";
-  }
+  };
   const handleSubmit = async (e: any) => {
     console.log(e.target.productImage);
     // const bodyFormData = new FormData();
@@ -33,7 +33,7 @@ const AddProduct = () => {
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
-      description:e.target.description.value,
+      description: e.target.description.value,
       nftImageUrl: e.target.nftImageUrl.value,
       productUrl: e.target.productUrl.value,
       numberOfProducts: e.target.numberOfProducts.value,
@@ -42,7 +42,7 @@ const AddProduct = () => {
       productCategory: e.target.productCategory.value,
       isWarrentied: e.target.isWarrentied.value,
       warrantyType: e.target.warrantyType.value,
-      timePeriod: timePeriodtoSec(e.target.timePeriod.value,e.target.timePeriodUnit.value),
+      timePeriod: timePeriodtoSec(e.target.timePeriod.value, e.target.timePeriodUnit.value),
       resoldVoilation: e.target.resoldVoilation.value,
       loyaltyCoinAlloted: e.target.loyaltyCoinAlloted.value,
       // phonenumber: e.target.phonenumber.value,
@@ -84,25 +84,40 @@ const AddProduct = () => {
       </header>
       <main className={styles.main}>
         <form
-          action="http://localhost:8000/collection/create"
-          onSubmit={handleSubmit}
+          action={"http://localhost:8000/collection/create?id=" + accessToken}
+          // onSubmit={handleSubmit}
           encType="multipart/form-data"
           method="POST"
         >
           <div className={styles.fb100}>
-            <Input id="productName" label="Product Name" type="text"></Input>
+            <Input
+              id="productName"
+              name="productName"
+              label="Product Name"
+              type="text"
+            ></Input>
           </div>
           <div className={styles.fb100}>
-            <Input id="description" label="Product Description" type="text"></Input>
+            <Input
+              id="description"
+              name="description"
+              label="Product Description"
+              type="text"
+            ></Input>
           </div>
           <div className={styles.fb45}>
-            <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
+            <Input
+              id="numberOfProducts"
+              name="numberOfProducts"
+              label="No. of Products"
+              type="number"
+            ></Input>
           </div>
           <div className={styles.fb45}>
-            <Input id="nftImageUrl" label="Nft Image Url" type="url"></Input>
+            <Input id="productImage" name="productImage" label="Nft Image" type="file"></Input>
           </div>
           <div className={styles.fb100}>
-            <Input id="productUrl" label="Product Url" type="url"></Input>
+            <Input id="productUrl" name="productUrl" label="Product Url" type="url"></Input>
           </div>
           <div>
             <p>
@@ -149,9 +164,9 @@ const AddProduct = () => {
                   Choose a Warranty Type:{" "}
                 </label>
                 <select name="warrantyType" id="warrantyType" className={styles.select}>
-                  <option value="standard">Standard</option>
-                  <option value="extended">Extended</option>
-                  <option value="lifetime">Life Time</option>
+                  <option value="Standard">Standard</option>
+                  <option value="Extended">Extended</option>
+                  <option value="Lifetime">Life Time</option>
                   <option value="other">other</option>
                 </select>
               </div>

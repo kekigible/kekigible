@@ -1,10 +1,8 @@
 //SPDX-License-Identifier: GPL-2.0
 pragma solidity ^0.8.9;
 
-import "./KekAccessControl.sol";
+import "./mixins/KekAccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 
 /**
@@ -13,9 +11,9 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
  * It has Context (eventual overriding by gas station network) and some other
  * OpenZeppelin goodies
  */
-abstract contract KekToken is KekAccessControl, ERC20Capped, ERC20Burnable, ERC20Pausable {
+contract KekToken is KekAccessControl, ERC20Pausable {
 
-    constructor(uint256 cap) ERC20("KekToken", "KEK") ERC20Capped(cap) {
+    constructor() ERC20("KekToken", "KEK") {
     }
 
     ///////////////////////////////Pause Related stuff/////////////////////////////////
@@ -42,12 +40,13 @@ abstract contract KekToken is KekAccessControl, ERC20Capped, ERC20Burnable, ERC2
         _mint(to, amount);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override(ERC20, ERC20Pausable) {
-        super._beforeTokenTransfer(from, to, amount);
-    }
+    // Don't mess with the overriden functions below, they were changed in their parent contracts
+    // function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override(IERC20, ERC20Pausable) {
+    //     super._beforeTokenTransfer(from, to, amount);
+    // }
 
-    function _mint(address account, uint256 amount) internal virtual override(ERC20, ERC20Capped) {
-        super._mint(account, amount);
-    }
+    // function _mint(address account, uint256 amount) internal virtual override(ERC20, ERC20Capped) {
+    //     super._mint(account, amount);
+    // }
 
 }

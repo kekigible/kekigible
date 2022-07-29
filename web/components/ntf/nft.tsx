@@ -2,16 +2,6 @@
 import Image from 'next/image';
 import styles from './nft.module.scss';
 
-const defaultProp: products = {
-    productName:"Product Name",
-    warrantyType:"Standard",
-    purchaseDate:"DD/MM/YYYY",
-    productId:"###############",
-    sold:true,
-    warrantyAvial:false,
-    category:"---"
-}
-
 const Nft = (product:products) =>{
     return(
         <div className={styles.nftContainer}>
@@ -31,7 +21,5 @@ const Nft = (product:products) =>{
         </div>
     )
 }
-
-Nft.defaultProps= defaultProp;
 
 export default Nft;

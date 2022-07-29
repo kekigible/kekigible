@@ -28,7 +28,15 @@ export interface ProductType {
   ownedBy: User;
 }
 
+interface Company {
+  storeName: string;
+  companyId: string;
+  email: string;
+  password: string;
+  phoneNumber: Number;
+}
+
 import { Request } from "express";
 export interface reqCompany extends Request {
-  user: typeof User | typeof Company | typeof Admin; // or any other type
+  user: Company; // or any other type
 }

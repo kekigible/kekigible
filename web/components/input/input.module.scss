@@ -1,0 +1,43 @@
+.inputContainer{
+    font-size: 1.2rem;
+}
+.input{
+    display: block;
+    width: 100%;
+    height: fit-content;
+    border: 2px solid #a6a6a6;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: inherit;
+    color: #454545;
+    outline: none;
+    padding: 1rem 1.25rem;
+    background: none;
+
+    &:hover {
+      border-color: #000;
+    }
+
+    &:focus {
+      border-color: #000;
+    }
+}
+
+.label{
+    position: relative;
+    left: 1rem;
+    top: -2.5rem;
+    padding: 0 0.5rem;
+    font-size:inherit;
+    color: #454545;
+    cursor: text;
+    transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+    background-color: #fff;
+}
+
+.input:focus ~ .label,
+.input:not(:placeholder-shown).input:not(:focus) ~ .label {
+  top: -4.225rem;
+  font-size: 0.8rem;
+  left: 0.8rem;
+}

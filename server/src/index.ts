@@ -1,6 +1,7 @@
 import express from "express";
 import connectDB from "./db/db";
 import dotenv from "dotenv";
+import cors from "cors";
 import { ErrorMiddleWare, NoRouteMiddleWare } from "./middleware/Error";
 import AuthRouter from "./routes/Auth";
 import CollectionRouter from "./routes/Collection";
@@ -12,7 +13,13 @@ const port = process.env.PORT || 8000;
 const app = express();
 
 //middleware
+const corsOption = {
+  origin: true, //included origin as true
+  credentials: true, //included credentials as true
+};
+
 app.use(express.json());
+app.use(cors(corsOption));
 
 app.use("/", AuthRouter);
 app.use("/", CollectionRouter);

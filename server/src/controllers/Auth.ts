@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import User from "../models/User";
 import AsyncWrapper from "../middleware/Async";
 import { BadRequest, ErrorClass, Unauthorized } from "../errors/Error";
@@ -12,13 +12,15 @@ import {
 import { PayloadType } from "../types";
 import Company from "../models/Company";
 import Admin from "../models/Admin";
+import { json } from "stream/consumers";
 
 const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-underscore-dangle
+  // console.log(req.co);
   const token = req.cookies._crid;
   if (!token) {
     // res.status(400).json({ status: "No refreshToken" });
-    throw new BadRequest("No refresh token");
+    res.status(500).json({ status: "failure", message: "cookie not present" });
     return;
   }
 
@@ -30,7 +32,7 @@ const refreshToken = async (req: Request, res: Response, next: NextFunction) => 
       return;
     }
     sendRefreshTokenCookie(res, createRefreshToken(user.id));
-    res.status(200).json({ accessToken: createAccessToken(payload.id) });
+    res.status(200).json({ status: "success", token: createAccessToken(payload.id) });
   } catch (err) {
     throw new ErrorClass(500, "Couldn't refresh token");
   }
@@ -84,76 +86,109 @@ const refreshTokenAdmin = async (req: Request, res: Response, next: NextFunction
 
 //USER login/register
 
-const registerUser = AsyncWrapper(async (req, res) => {
-  const { username, password, email } = req.body;
+const registerUser = async (req, res) => {
+  const { firstname, lastname, password, email } = req.body;
+  console.log("working signin", req.body);
   let hashedPassword = bcrypt.hashSync(password, 8);
+  try {
+    if (!firstname || !password) throw new BadRequest("Please enter username and password");
 
-  if (!username || !password) throw new BadRequest("Please enter username and password");
+    let user = await User.findOne({ email: req.body.email });
+    console.log(user);
+    if (user) res.status(500).json({ status: "failure", message: "User already present" });
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) throw new BadRequest("User already present");
+    user = await User.create({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: hashedPassword,
+    });
 
-  user = await User.create({
-    username: username,
-    email: email,
-    password: hashedPassword,
-  });
+    console.log(user);
+    const token = createAccessToken(user._id);
+    sendRefreshTokenCookie(res, createRefreshToken(user._id));
+    res.status(200).json({ auth: true, token: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: "failure", message: error });
+  }
+};
 
-  const token = createAccessToken(user._id);
-  sendRefreshTokenCookie(res, createRefreshToken(user.id));
-  res.status(200).json({ auth: true, token: token });
-});
+const loginUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      res.status(500).json({ status: "failure", message: "No user found" });
+      return;
+    }
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-const loginUser = AsyncWrapper(async (req, res) => {
-  const user = await User.findOne({ id: req.id });
-  if (!user) throw new ErrorClass(400, "No such user present");
+    if (!passwordIsValid)
+      return res
+        .status(401)
+        .json({ auth: false, token: null, message: "Password is incorrect" });
 
-  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-
-  if (!passwordIsValid)
-    return res
-      .status(401)
-      .json({ auth: false, token: null, message: "Password is incorrect" });
-
-  const token = createAccessToken(user._id);
-  res.status(200).json({ status: "success , loged in", data: user, token: token });
-});
+    const token = createAccessToken(user._id);
+    res.status(200).json({ status: "success , loged in", data: user, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "failure", message: error });
+  }
+};
 
 //Company
 
-const registerCompany = AsyncWrapper(async (req, res) => {
-  const { username, password, email } = req.body;
+const registerCompany = async (req, res) => {
+  const { storeName, password, email, phoneNumber } = req.body;
   let hashedPassword = bcrypt.hashSync(password, 8);
+  console.log(req.body, storeName, password);
 
-  if (!username || !password) throw new BadRequest("Please enter username and password");
+  try {
+    if (!storeName || !password) {
+      res
+        .status(500)
+        .json({ status: "failure", message: "shopname and password not present" });
+      return;
+    }
 
-  let user = await Company.findOne({ email: req.body.email });
-  if (user) throw new BadRequest("User already present");
+    let user = await Company.findOne({ email: req.body.email });
+    if (user)
+      res.status(500).json({ status: "failure", message: "username already present " });
 
-  user = await User.create({
-    username: username,
-    email: email,
-    password: hashedPassword,
-  });
+    user = await Company.create({
+      storeName,
+      email,
+      password: hashedPassword,
+      phoneNumber,
+    });
 
-  const token = createAccessToken(user._id);
-  sendRefreshTokenCookie(res, createRefreshToken(user.id));
-  res.status(200).json({ auth: true, token: token });
-});
+    const token = createAccessToken(user._id);
+    sendRefreshTokenCookie(res, createRefreshToken(user.id));
+    res.status(200).json({ auth: true, token: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: "failure", message: error });
+  }
+};
 
 const loginCompany = AsyncWrapper(async (req, res) => {
-  const user = await Company.findOne({ id: req.id });
-  if (!user) throw new ErrorClass(400, "No such user present");
+  try {
+    const user = await Company.findOne({ email: req.body.email });
+    if (!user) {
+      res.status(500).json({ status: "failure", message: "No user found" });
+      return;
+    }
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid)
+      return res
+        .status(401)
+        .json({ auth: false, token: null, message: "Password is incorrect" });
 
-  if (!passwordIsValid)
-    return res
-      .status(401)
-      .json({ auth: false, token: null, message: "Password is incorrect" });
-
-  const token = createAccessToken(user._id);
-  res.status(200).json({ status: "success , loged in", data: user, token: token });
+    const token = createAccessToken(user._id);
+    res.status(200).json({ status: "success , loged in", data: user, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "success", message: error });
+  }
 });
 
 //ADMIN
@@ -167,7 +202,7 @@ const registerAdmin = AsyncWrapper(async (req, res) => {
   let user = await Admin.findOne({ email: req.body.email });
   if (user) throw new BadRequest("User already present");
 
-  user = await User.create({
+  user = await Admin.create({
     username: username,
     email: email,
     password: hashedPassword,
@@ -179,18 +214,21 @@ const registerAdmin = AsyncWrapper(async (req, res) => {
 });
 
 const loginAdmin = AsyncWrapper(async (req, res) => {
-  const user = await Admin.findOne({ id: req.id });
-  if (!user) throw new ErrorClass(400, "No such user present");
+  try {
+    const user = await Admin.findOne({ email: req.body.email });
+    if (!user) throw new ErrorClass(400, "No such user present");
+    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-  var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid)
+      return res
+        .status(401)
+        .json({ auth: false, token: null, message: "Password is incorrect" });
 
-  if (!passwordIsValid)
-    return res
-      .status(401)
-      .json({ auth: false, token: null, message: "Password is incorrect" });
-
-  const token = createAccessToken(user._id);
-  res.status(200).json({ status: "success , loged in", data: user, token: token });
+    const token = createAccessToken(user._id);
+    res.status(200).json({ status: "success , loged in", data: user, token: token });
+  } catch (error) {
+    res.status(500).json({ status: "success", message: error });
+  }
 });
 
 export {

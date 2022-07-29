@@ -6,7 +6,7 @@ var validateEmail = function (email) {
 };
 
 const CompanySchema = new mongoose.Schema({
-  username: {
+  storeName: {
     type: String,
     required: [true, "Name is required"],
     trim: true,
@@ -26,6 +26,8 @@ const CompanySchema = new mongoose.Schema({
     type: String,
     required: [true, "password is required"],
   },
+
+  phoneNumber: Number,
 });
 
 export default mongoose.model("Company", CompanySchema);

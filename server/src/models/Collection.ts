@@ -40,10 +40,23 @@ const collectionSchema = new mongoose.Schema({
 
   //assuming it is a collection of products
 
+  decayingTime: {
+    type: Date,
+  },
+
   productArray: {
     type: [ProductSchema],
     default: [],
   },
+
+  warrantyType: {
+    type: String,
+    enum: {
+      values: ["Standard", "Extended", "Lifetime", "others"],
+    },
+  },
+
+  numberOfProducts: Number,
 
   nftImageUrl: String,
 

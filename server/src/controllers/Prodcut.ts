@@ -28,4 +28,19 @@ const extendWarranty = async (req: Request, res: Response) => {
   }
 };
 
-export { extendWarranty };
+const createProduct = async (req: Request, res: Response) => {
+  try {
+    const product = Product.create({
+      ...req.body,
+      productDate: req.body.purchasedDate,
+      imageUrl: req.file,
+      decayingTime: req.body.timePeriod,
+    });
+
+    res.status(200).json({ status: "success", data: product });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error });
+  }
+};
+
+export { extendWarranty, createProduct };

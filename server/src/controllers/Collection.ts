@@ -6,7 +6,14 @@ const createCollection = async (req: reqCompany, res: Response) => {
   try {
     console.log(req.body, req.file, req.user);
 
-    const newCollection = Collection.create({ ...req.body, nftImageUrl: req.file.buffer });
+    const newCollection = Collection.create({
+      ...req.body,
+      // nftImageUrl: req.file.buffer,
+      companyId: req.user.companyId,
+      author: req.user.storeName,
+      createdAt: new Date(Date.now()),
+      decayingTime: req.body.timePeriod,
+    });
     res.status(200).json({ statue: "Created Collection", data: newCollection });
   } catch (error) {
     res.status(500).json({ status: "Failed to create collection", message: error });

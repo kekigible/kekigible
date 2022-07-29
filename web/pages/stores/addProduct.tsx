@@ -19,8 +19,13 @@ const AddProduct = () => {
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
+<<<<<<< HEAD
       description:e.target.description.value,
       nftImageUrl: e.target.nftImageUrl.value,
+=======
+      description: e.target.description.value,
+      productImage: e.target.productImage.value,
+>>>>>>> ec2af97de391b500ae695588bd5df330bb17614b
       productUrl: e.target.productUrl.value,
       numberOfProducts: e.target.numberOfProducts.value,
       loyaltCoin: e.target.loyaltCoin.value,
@@ -30,6 +35,8 @@ const AddProduct = () => {
       warrantyType: e.target.warrantyType.value,
       timePeriod: e.target.timePeriod.value,
       resoldVoilation: e.target.resoldVoilation.value,
+      loyaltyCoinAlloted: e.target.loyaltyCoinAlloted.value,
+      productCategory: e.target.productCategory.value,
       // phonenumber: e.target.phonenumber.value,
     };
 
@@ -95,7 +102,7 @@ const AddProduct = () => {
             </p>
           </div>
           <div className={styles.fb45}>
-            <Input id="loyaltCoin" label="Loyalty Coin" type="number"></Input>
+            <Input id="loyaltyCoinAlloted" label="Loyalty Coin" type="number"></Input>
           </div>
           <div className={styles.fb45}>
             <Input id="minPurchase" label="min Amount" type="number"></Input>

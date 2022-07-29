@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { auth, ContextAppType, Props } from "../data";
 import { getCookie } from "../utils/utils";
 
 const AppContextDefaultValues: ContextAppType = {
@@ -36,6 +37,7 @@ const AppProvider = ({ children }: Props) => {
           headers: { authorization: `Bearer ${appGlobalState.accessToken}` },
         }
       );
+      console.log(response);
       setAccessToken(response.data.token);
       console.log(response);
     } catch (error) {

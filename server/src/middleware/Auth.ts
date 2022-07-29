@@ -57,7 +57,8 @@ export const authMiddlewareCompany = async (req, res, next) => {
 
     return next();
   } catch (err) {
-    throw new Unauthorized("There was a problem authenticating the user ");
+    console.log(err);
+    res.status(500).json({ status: "failure", message: err });
   }
 };
 

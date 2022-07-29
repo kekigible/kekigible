@@ -47,3 +47,35 @@
         }
     }
 }
+
+.btn{
+    padding:1rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    color: #fff;
+    background-color: #232323;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    &:hover{
+        background-color: #101010 ;
+        box-shadow: 0 0 3px 3px  rgba(128,128,128,0.3);
+    }
+}
+.header{
+
+    display: flex;
+    height:10vh;
+    width:vw;
+    background-color: black;
+    align-items: center;
+    p{
+        cursor: pointer;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        padding: 1rem;
+    }
+}

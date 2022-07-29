@@ -19,10 +19,19 @@ const AddProduct = () => {
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
+<<<<<<< HEAD
+      description:e.target.description.value,
+      nftImageUrl: e.target.nftImageUrl.value,
+=======
       description: e.target.description.value,
       productImage: e.target.productImage.value,
+>>>>>>> ec2af97de391b500ae695588bd5df330bb17614b
       productUrl: e.target.productUrl.value,
       numberOfProducts: e.target.numberOfProducts.value,
+      loyaltCoin: e.target.loyaltCoin.value,
+      minPurchase: e.target.minPurchase.value,
+      productCategory: e.target.productCategory.value,
+      isWarrentied: e.target.isWarrentied.value,
       warrantyType: e.target.warrantyType.value,
       timePeriod: e.target.timePeriod.value,
       resoldVoilation: e.target.resoldVoilation.value,
@@ -82,7 +91,7 @@ const AddProduct = () => {
             <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
           </div>
           <div className={styles.fb45}>
-            <Input id="productImage" label="Nft Image" type="file"></Input>
+            <Input id="nftImageUrl" label="Nft Image Url" type="url"></Input>
           </div>
           <div className={styles.fb100}>
             <Input id="productUrl" label="Product Url" type="url"></Input>

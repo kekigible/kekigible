@@ -45,12 +45,37 @@ const Dashboard = () => {
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     if (accessToken) {
       console.log("if loop", accessToken);
       getProducts();
     }
   }, [accessToken]);
+=======
+    return(
+        <div>
+        <Head>
+          <title>Kekigible|DashBoard</title>
+          <meta name="Kekigible" content="Blockchain-based eCommerce warranty system using NFTs" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <header>
+            <Navbar />
+        </header>
+        <main className={styles.main}>
+            <section className={styles.topSection}>
+                <Link href="/market">
+                    <p className={styles.btn}>Market</p>  
+                </Link>
+            <form action="#" className={styles.form}>
+                <Input id='search' type="text" label="Search for a product"></Input>
+                <input type="submit" value="Go" />
+            </form>
+            </section>
+            <section className={styles.product}>
+                <div className={styles.nftSection}>
+>>>>>>> 7ce1a91ab77cdc9655a6fc045a3ebeaedb2ec5a4
 
   return (
     <div>

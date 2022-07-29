@@ -24,7 +24,8 @@ const createCollection = async (req: reqCompany, res: Response) => {
     // const newCollection = await Collection.create({ ...req.body, nftImageUrl: req.files[0].buffer });
     const newCollection = await Collection.create({
       productName: req.body.productName as string,
-      companyId: req.user.companyId as string,
+      //@ts-ignore
+      // companyId: req.user.companyId as string,
       author: "me",
       description: req.body.description,
       decayingTime: 12222,
@@ -32,8 +33,14 @@ const createCollection = async (req: reqCompany, res: Response) => {
       numberOfProducts: req.body.numberOfProducts,
       //@ts-ignore
       nftImageUrl: req.files.productImage.data,
+      //@ts-ignore
+      nftImageMime: req.files.productImage.mimetype
     });
-    res.status(200).json({ status: "Created Collection" });
+    res.status(200).json({ status: "Created Collection" , id: newCollection.collectionId});
+      //@ts-ignore
+    // *** res.contentType(req.files.productImage.mimetype)
+    //@ts-ignore
+    // *** res.send(req.files.productImage.data)
   } catch (error) {
     res.status(500).json({ status: "Failed to create collection", message: error });
   }
@@ -47,6 +54,14 @@ const getAllCollection = async (req: Request, res: Response) => {
     res.status(500).json({ status: "Failed to get collection list", message: error });
   }
 };
+
+const getNFTImage = async(req: Request, res: Response) => {
+  const col = await Collection.findOne({collectionId: req.params.collectionId})
+      //@ts-ignore
+    res.contentType(col.nftImageMime)
+    //@ts-ignore
+    res.send(col.nftImageUrl)
+}
 
 const uploadNftImage = async (req: Request, res: Response) => {
   try {
@@ -82,4 +97,4 @@ const uploadGamifiedNftImage = async (req: Request, res: Response) => {
   }
 };
 
-export { createCollection, getAllCollection, uploadNftImage, uploadGamifiedNftImage };
+export { createCollection, getAllCollection, uploadNftImage, uploadGamifiedNftImage , getNFTImage};

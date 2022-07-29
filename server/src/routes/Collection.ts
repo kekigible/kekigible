@@ -4,6 +4,7 @@ import {
   getAllCollection,
   uploadGamifiedNftImage,
   uploadNftImage,
+  getNFTImage,
 } from "../controllers/Collection";
 import { authMiddlewareCompany } from "../middleware/Auth";
 import { nftUpload } from "../middleware/Upload";
@@ -22,5 +23,7 @@ CollectionRouter.get("/collection", getAllCollection);
 //   nftUpload.single("image"),
 //   uploadGamifiedNftImage
 // );
+
+CollectionRouter.get("/nftImage/:collectionId", getNFTImage)
 
 export default CollectionRouter;

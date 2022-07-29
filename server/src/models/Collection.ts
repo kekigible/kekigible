@@ -20,7 +20,6 @@ const collectionSchema = new mongoose.Schema({
   companyId: {
     type: String,
     default: genUUID(),
-    unique: true,
   },
 
   author: {
@@ -65,7 +64,9 @@ const collectionSchema = new mongoose.Schema({
 
   numberOfProducts: Number,
 
-  nftImageUrl: String,
+  nftImageUrl: Buffer,
+
+  nftImageMime: String,
 
   nftSoulBound: { type: Boolean, default: false },
 

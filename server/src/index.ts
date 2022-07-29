@@ -7,6 +7,7 @@ import AuthRouter from "./routes/Auth";
 import CollectionRouter from "./routes/Collection";
 import ProductRouter from "./routes/Product";
 const fileUpload = require('express-fileupload');
+import {factorySol} from  "./blockchain/utils";
 
 
 dotenv.config();
@@ -33,7 +34,7 @@ app.use(ErrorMiddleWare);
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
-    app.listen(port, () => console.log(`server is listening at port ${port}`));
+    app.listen(port, () => console.log(`server is listening at port ${port} ${factorySol.sourceName}`));
   } catch (error) {
     console.log(error);
   }

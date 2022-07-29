@@ -39,7 +39,8 @@ const AppProvider = ({ children }: Props) => {
       );
       console.log(response);
       setAccessToken(response.data.token);
-      console.log(response);
+      localStorage.setItem("access-token", response.data.token);
+      console.log(response, appGlobalState.accessToken);
     } catch (error) {
       console.log(error);
     }
@@ -69,14 +70,11 @@ const AppProvider = ({ children }: Props) => {
     }
   };
 
-  // useEffect(() => {
-  //   // refreshToken().then((data) => console.log(data));
-  //   axios
-  //     .get("http://localhost:8000/refreshToken", {
-  //       withCredentials: true,
-  //     })
-  //     .then((data) => console.log(data));
-  // }, []);
+  useEffect(() => {
+    // refreshToken().then((data) => console.log(data));
+    const token = localStorage.getItem("access-token");
+    if (token) setAccessToken(token);
+  }, []);
 
   return (
     <>

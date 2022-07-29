@@ -16,8 +16,7 @@ const Login = () => {
       email: e.target.email.value,
       entity: "company",
     });
-    window.location.href="/stores/shopDashboard";
-    console.log(response);
+    window.location.href = "/stores/shopDashboard";
   };
 
   return (

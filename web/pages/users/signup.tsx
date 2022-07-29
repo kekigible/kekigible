@@ -7,7 +7,7 @@ import Input from "../../components/input/input";
 import Navbar from "../../components/navbar/navbar";
 import { useAppContext } from "../../context/context";
 import styles from "../../styles/signup.module.scss";
-import illustration from '../../public/images/7023606.jpg'
+import illustration from "../../public/images/7023606.jpg";
 
 const Signup = () => {
   const { setAccessToken, accessToken, isLogedIn } = useAppContext();
@@ -30,6 +30,7 @@ const Signup = () => {
       });
       console.log(respose.data);
       setAccessToken(respose.data.token);
+      localStorage.setItem("access-token", respose.data.token);
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +85,7 @@ const Signup = () => {
         <section className={styles.middleSpace}></section>
         <section className={styles.rightView}>
           <div className={styles.rightViewTile}>
-            <Image src={illustration}  alt="illustration" ></Image>
+            <Image src={illustration} alt="illustration"></Image>
           </div>
         </section>
       </main>

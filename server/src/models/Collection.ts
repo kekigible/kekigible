@@ -17,6 +17,12 @@ const collectionSchema = new mongoose.Schema({
     unique: true,
   },
 
+  companyId: {
+    type: String,
+    default: genUUID(),
+    unique: true,
+  },
+
   author: {
     type: String,
     required: [true, "Author is required"],

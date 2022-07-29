@@ -5,12 +5,14 @@ import {
   uploadGamifiedNftImage,
   uploadNftImage,
 } from "../controllers/Collection";
+import { authMiddlewareCompany } from "../middleware/Auth";
 import { nftUpload } from "../middleware/Upload";
 
 const CollectionRouter = Router();
 
 CollectionRouter.post(
   "/collection/create",
+  authMiddlewareCompany,
   nftUpload.single("productImage"),
   createCollection
 );

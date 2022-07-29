@@ -3,19 +3,25 @@ import Link from "next/link"
 import { useState } from "react"
 
 import Navbar from "../../components/navbar/navbar"
+import { collections } from "../../data"
 import styles from "../../styles/shopDashboard.module.scss"
 
-let collection:collection={
-    collectionName: "MSI GF63",
+let collection:collections={
+    name: "MSI GF63",
     category: "Laptop",
+    collectionId:"dasjh",
+    description:"Lorem",
     warrantyAvail: true,
+    nftSoulBound:true,
+    createdAt:Date(),
     warrantyType: "Standard",
     warrantyPeriod: "2 years",
-    amountRemaining: 23,
-    productUrl:"https://www.amazon.in/MSI-i5-10500H-Windows-GTX1650-10SC-611IN/dp/B09YTVB91N/ref=sr_1_3?crid=1BBIWE8NE82KP&keywords=msi+gf63&qid=1659013806&sprefix=msi+%2Caps%2C1238&sr=8-3",
+    nftPurchasable: 23,
+    nftImageUrl:"https://images.pexels.com/photos/4051212/pexels-photo-4051212.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    productUrl: "https://www.amazon.in/MSI-i5-10500H-Windows-GTX1650-10SC-611IN/dp/B09YTVB91N/ref=sr_1_3?crid=1BBIWE8NE82KP&keywords=msi+gf63&qid=1659013806&sprefix=msi+%2Caps%2C1238&sr=8-3",
 }
 const ShopDashboard = () =>{
-    const [listedCollection,setlistedCollection] = useState<collection[]>([collection]);
+    const [listedCollection,setlistedCollection] = useState<collections[]>([collection]);
     return(
         <div className={styles.container}>
         <Head>
@@ -50,12 +56,12 @@ const ShopDashboard = () =>{
                     <tbody>
                         {listedCollection.map((collection,index)=>{
                             return <tr key={index}>
-                                <td>{collection.collectionName}</td>
+                                <td>{collection.name}</td>
                                 <td>{collection.category}</td>
                                 <td>{collection.warrantyAvail? "Yes":"No" }</td>
                                 <td>{collection.warrantyType }</td>
                                 <td>{collection.warrantyPeriod}</td>
-                                <td>{collection.amountRemaining}</td>
+                                <td>{collection.nftPurchasable}</td>
                                 <th><Link href={collection.productUrl} target="_blank">Link</Link></th>
                                 <td><Link href="/stores/sell"><p className={styles.addProdbtn}>Sell</p></Link></td>
                             </tr>

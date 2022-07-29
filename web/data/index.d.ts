@@ -1,3 +1,5 @@
+import { Url } from "url";
+
 interface formInputProp {
   type: string;
   label: string;
@@ -14,24 +16,52 @@ interface nftProp {
 }
 
 interface products {
+  owner: string;
   productId: string;
+  description: string;
+  collectionId: String;
   productName: string;
   category: string;
-  warrantyAvial: boolean;
+  warrantyAvail: boolean;
   warrantyType: string;
   warrantyPeriod?: string;
   sold: boolean;
   purchaseDate?: string;
+  createdAt: string;
+  modifiedAt: string;
+  nftImageUrl: string;
+  nftLoyaltyImageUrl: string;
+  nftSoulBound: boolean;
+  nftPurchasable: number;
+  productUrl: Url;
 }
 
-interface collection {
-  collectionName: string;
+interface collections {
+  name: String;
+  collectionId: String;
+  author?: String;
+  description: String;
+  createdAt: string;
+  modifiedAt?: string;
+  nftImageUrl: String;
+  nftLoyaltyImageUrl?: String;
+  nftSoulBound: boolean;
+  nftPurchasable?: number;
+  loyaltyCoinAlloted?: number;
   category: string;
   warrantyAvail: boolean;
-  warrantyType?: string;
+  warrantyType: string;
   warrantyPeriod?: string;
-  amountRemaining: number;
-  productUrl?: string;
+  productUrl: url | string;
+}
+
+interface ticket {
+  ticketTitle: string;
+  ticketDescription: string;
+  ticketIdentifier: string;
+  createdAt: string;
+  modifiedAt: string;
+  status: string;
 }
 
 interface ContextAppType {

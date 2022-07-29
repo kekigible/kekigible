@@ -6,13 +6,16 @@ import styles from "../../styles/addProduct.module.scss";
 import Input from "../../components/input/input";
 import axios from "axios";
 import FormData from "form-data";
+import { useAppContext } from "../../context/context";
+
 const AddProduct = () => {
+  const { accessToken } = useAppContext();
   const [isWarranty, setIsWarranty] = useState(false);
 
   const handleSubmit = async (e: any) => {
     console.log(e.target.productImage);
-    const bodyFormData = new FormData();
-    bodyFormData.append("productImage", e.target.productImage.value);
+    // const bodyFormData = new FormData();
+    // bodyFormData.append("productImage", e.target.productImage.value);
     e.preventDefault();
     const formBody = {
       productName: e.target.productName.value,
@@ -25,19 +28,18 @@ const AddProduct = () => {
       // phonenumber: e.target.phonenumber.value,
     };
 
-    console.log(formBody);
+    console.log(formBody, accessToken);
 
     try {
-      const respose = await axios.post(
-        "http://localhost:8000/collection/create",
-        bodyFormData,
-        {
-          //   withCredentials: true,
-          //   headers: { "Content-Type": `multipart/form-data` },
-          headers: bodyFormData.getHeaders(),
-          // credentials: "include",
-        }
-      );
+      const respose = await axios.post("http://localhost:8000/collection/create", formBody, {
+        //   withCredentials: true,
+        headers: {
+          "Content-Type": `multipart/form-data`,
+          authorization: `Bearer ${accessToken}`,
+        },
+        // headers: bodyFormData.getHeaders(),
+        // credentials: "include",
+      });
       console.log(respose.data);
     } catch (error) {
       console.log(error);
@@ -69,21 +71,26 @@ const AddProduct = () => {
         >
           <div className={styles.fb100}>
             <Input id="productName" label="Product Name" type="text"></Input>
-          </div>
-          <div className={styles.fb45}>
-            <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
-          </div>
-          <div className={styles.fb45}>
-            <Input
-              id="productImage"
-              label="Product Image"
-              type="file"
-              name="productImage"
-            ></Input>
-          </div>
-          <div className={styles.fb100}>
-            <Input id="productUrl" label="Product Url" type="url"></Input>
-          </div>
+            </div>
+                <div className={styles.fb100}>
+                <Input id="description" label="Product Description" type="text"></Input>
+                </div>
+                <div className={styles.fb45}>
+                <Input id="numberOfProducts" label="No. of Products" type="number"></Input>
+                </div>
+                <div className={styles.fb45}>
+                <Input id="nftImageurl" label="Nft Image Url" type="string"></Input>
+                </div>
+                <div className={styles.fb100}>
+                <Input id="producturl" label="Product Url" type="url"></Input>
+                </div>
+                <div><p>*Loyalty coins are awarderd to the person who purchased min amount of products</p></div>
+                <div className={styles.fb45}>
+                <Input id="loyaltCoin" label="Loyalty Coin" type="number"></Input>
+                </div>
+                <div className={styles.fb45}>
+                <Input id="minPurchase" label="min Amount" type="number"></Input>
+                </div>
           <div className={styles.fb100}>
             <label htmlFor="productCategory" className={styles.fslabel}>
               Product Category:{" "}

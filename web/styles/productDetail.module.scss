@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap');
+.header{
+
+    display: flex;
+    height:10vh;
+    width:vw;
+    background-color: black;
+    align-items: center;
+    p{
+        cursor: pointer;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        padding: 1rem;
+    }
+}
+.main{
+    padding: 2rem;
+    background-color: rgba($color: #00f0f0, $alpha: .03);
+    .upper{
+        background-color: #fefefe;
+        display: flex;
+        justify-content: space-around;
+        padding: 2rem;
+        box-shadow: 0 0 5px 5px rgba($color: #4f4f4f, $alpha: 0.5);
+        align-items: center;
+        margin-bottom: 2rem;
+        .imgSection{
+            text-align: center;
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 0 5px 5px rgba($color: #4f4f4f, $alpha: 0.5);
+            p{
+                font-family: 'Source Sans Pro', sans-serif;
+                padding: 1rem;
+            }
+        }
+        .info{
+            width: 30rem;
+            p{
+                padding: .5rem;
+                font-family: 'Source Sans Pro', sans-serif;
+                
+            }
+        }
+    }
+    .lower{
+        padding: 2rem;
+        display: flex;
+        box-shadow: 0 0 5px 5px rgba($color: #4f4f4f, $alpha: 0.5);
+        background-color: #fefefe;
+        text-align: center;
+        table{
+            margin-top: 2rem;
+            width: 100%;
+            thead{
+                border: 2px solid black;
+                th{
+                    padding: 1rem;
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                }
+            }
+            tbody{
+                border: 1px solid black;
+                tr{
+                    text-align: center;
+                    td{
+                        border-right: 1px solid black;
+                        font-weight: 500;
+                        padding: .5rem;
+                    }
+                }
+            }
+        }
+            p{
+                padding: 4rem;
+                font-size: 2rem;
+                font-weight: 600;
+                font-family: 'Source Sans Pro', sans-serif;
+            }
+
+    }
+}
+.btn{
+    margin-bottom: 1rem;
+    width: fit-content;
+    padding: 1rem;
+    margin-left: 1rem;
+    color: #fff;
+    background-color: #bb0000;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    &:hover{
+        background-color: #ff0000 ;
+        box-shadow: 0 0 3px 3px  rgba(128,128,128,0.3);
+    }
+}
